@@ -35,25 +35,10 @@ $string['privacy:metadata'] = 'O plugin de recurso de apresentação de diaposit
 $string['content'] = 'Conteúdo do diapositivo';
 $string['slides'] = 'Diapositivos';
 
-$string['configdisplayoptions'] = 'Selecione todas as opções que devem estar disponíveis; as definições existentes não são alteradas. Mantenha a tecla CTRL premida para selecionar vários campos.';
 $string['contentheader'] = 'Conteúdo';
 $string['createslideshow'] = 'Criar nova apresentação de diapositivos';
-$string['displayoptions'] = 'Opções de visualização disponíveis';
-$string['displayselect'] = 'Visualização';
-$string['displayselectexplain'] = 'Selecionar tipo de visualização.';
-$string['indicator:cognitivedepth'] = 'Apresentação cognitiva';
-$string['indicator:cognitivedepth_help'] = 'Este indicador baseia-se na profundidade cognitiva alcançada pelo formando num recurso de apresentação.';
-$string['indicator:cognitivedepthdef'] = 'Apresentação cognitiva';
-$string['indicator:cognitivedepthdef_help'] = 'O participante atingiu esta percentagem do envolvimento cognitivo oferecido pelos recursos de apresentação durante este intervalo de análise (Níveis = Sem visualização, Visualização)';
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
-$string['indicator:socialbreadth'] = 'Apresentação social';
-$string['indicator:socialbreadth_help'] = 'Este indicador baseia-se na amplitude social alcançada pelo formando num recurso de apresentação.';
-$string['indicator:socialbreadthdef'] = 'Apresentação social';
-$string['indicator:socialbreadthdef_help'] = 'O participante atingiu esta percentagem do envolvimento social oferecido pelos recursos de apresentação durante este intervalo de análise (Níveis = Sem participação, Participante sozinho)';
-$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['modulename_link'] = 'mod/slideshow/view';
-$string['optionsheader'] = 'Opções de visualização';
 $string['pluginadministration'] = 'Administração do módulo de apresentação';
 $string['popupheight'] = 'Altura do pop-up (em pixels)';
 $string['popupheightexplain'] = 'Especifica a altura predefinida das janelas pop-up.';

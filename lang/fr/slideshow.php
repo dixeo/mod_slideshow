@@ -34,25 +34,10 @@ $string['privacy:metadata'] = 'Le plugin de ressource Diaporama ne stocke aucune
 $string['content'] = 'Contenu de la diapositive';
 $string['slides'] = 'Diapositives';
 
-$string['configdisplayoptions'] = 'Sélectionnez toutes les options qui devraient être disponibles, les paramètres existants ne sont pas modifiés. Maintenez la touche CTRL enfoncée pour sélectionner plusieurs champs.';
 $string['contentheader'] = 'Contenu';
 $string['createslideshow'] = 'Créer une nouvelle ressource diaporama';
-$string['displayoptions'] = 'Options d\'affichage disponibles';
-$string['displayselect'] = 'Affichage';
-$string['displayselectexplain'] = 'Sélectionnez le type d\'affichage.';
-$string['indicator:cognitivedepth'] = 'Diaporama cognitif';
-$string['indicator:cognitivedepth_help'] = 'Cet indicateur est basé sur la profondeur cognitive atteinte par l\'étudiant dans une ressource Diaporama.';
-$string['indicator:cognitivedepthdef'] = 'Diaporama cognitif';
-$string['indicator:cognitivedepthdef_help'] = 'Le participant a atteint ce pourcentage de l\'engagement cognitif offert par les ressources Diaporama pendant cet intervalle d\'analyse (Niveaux = Pas de vue, Vue)';
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
-$string['indicator:socialbreadth'] = 'Diaporama social';
-$string['indicator:socialbreadth_help'] = 'Cet indicateur est basé sur l\'ampleur sociale atteinte par l\'étudiant dans une ressource Diaporama.';
-$string['indicator:socialbreadthdef'] = 'Diaporama social';
-$string['indicator:socialbreadthdef_help'] = 'Le participant a atteint ce pourcentage de l\'engagement social offert par les ressources Diaporama pendant cet intervalle d\'analyse (Niveaux = Pas de participation, Participant seul)';
-$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['modulename_link'] = 'mod/slideshow/view';
-$string['optionsheader'] = 'Options d\'affichage';
 $string['pluginadministration'] = 'Administration du module Diaporama';
 $string['popupheight'] = 'Hauteur de la fenêtre pop-up (en pixels)';
 $string['popupheightexplain'] = 'Spécifie la hauteur par défaut des fenêtres pop-up.';

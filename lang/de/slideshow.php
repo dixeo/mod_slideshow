@@ -35,25 +35,10 @@ $string['privacy:metadata'] = 'Das Slideshow-Ressourcen-Plugin speichert keine p
 $string['content'] = 'Folieninhalt';
 $string['slides'] = 'Folien';
 
-$string['configdisplayoptions'] = 'Wählen Sie alle Optionen aus, die verfügbar sein sollen. Bestehende Einstellungen werden nicht geändert. Halten Sie die STRG-Taste gedrückt, um mehrere Felder auszuwählen.';
 $string['contentheader'] = 'Inhalt';
 $string['createslideshow'] = 'Neue Slideshow-Ressource erstellen';
-$string['displayoptions'] = 'Verfügbare Anzeigeoptionen';
-$string['displayselect'] = 'Anzeige';
-$string['displayselectexplain'] = 'Anzeigetyp auswählen.';
-$string['indicator:cognitivedepth'] = 'Slideshow kognitiv';
-$string['indicator:cognitivedepth_help'] = 'Dieser Indikator basiert auf der kognitiven Tiefe, die die Lernende/r in einer Slideshow-Ressource erreicht hat.';
-$string['indicator:cognitivedepthdef'] = 'Slideshow kognitiv';
-$string['indicator:cognitivedepthdef_help'] = 'Die Teilnehmer/innen haben diesen Prozentsatz des kognitiven Engagements der Slideshow-Ressourcen in diesem Analyseintervall erreicht (Ebenen = Keine Ansicht, Ansicht)';
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
-$string['indicator:socialbreadth'] = 'Slideshow sozial';
-$string['indicator:socialbreadth_help'] = 'Dieser Indikator basiert auf der sozialen Breite, die die Lernende/r in einer Slideshow-Ressource erreicht hat.';
-$string['indicator:socialbreadthdef'] = 'Slideshow sozial';
-$string['indicator:socialbreadthdef_help'] = 'Die Teilnehmer/innen haben diesen Prozentsatz des sozialen Engagements der Slideshow-Ressourcen in diesem Analyseintervall erreicht (Ebenen = Keine Teilnahme, Teilnahme allein)';
-$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['modulename_link'] = 'mod/slideshow/view';
-$string['optionsheader'] = 'Anzeigeoptionen';
 $string['pluginadministration'] = 'Slideshow-Modul-Administration';
 $string['popupheight'] = 'Popup-Höhe (in Pixel)';
 $string['popupheightexplain'] = 'Standardhöhe der Popup-Fenster.';

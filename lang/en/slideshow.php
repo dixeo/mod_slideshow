@@ -36,25 +36,10 @@
  $string['slides'] = 'Slides';
 
 
-$string['configdisplayoptions'] = 'Select all options that should be available, existing settings are not modified. Hold CTRL key to select multiple fields.';
 $string['contentheader'] = 'Content';
 $string['createslideshow'] = 'Create a new slideshow resource';
-$string['displayoptions'] = 'Available display options';
-$string['displayselect'] = 'Display';
-$string['displayselectexplain'] = 'Select display type.';
-$string['indicator:cognitivedepth'] = 'Slideshow cognitive';
-$string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a Slideshow resource.';
-$string['indicator:cognitivedepthdef'] = 'Slideshow cognitive';
-$string['indicator:cognitivedepthdef_help'] = 'The participant has reached this percentage of the cognitive engagement offered by the Slideshow resources during this analysis interval (Levels = No view, View)';
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
-$string['indicator:socialbreadth'] = 'Slideshow social';
-$string['indicator:socialbreadth_help'] = 'This indicator is based on the social breadth reached by the student in a Slideshow resource.';
-$string['indicator:socialbreadthdef'] = 'Slideshow social';
-$string['indicator:socialbreadthdef_help'] = 'The participant has reached this percentage of the social engagement offered by the Slideshow resources during this analysis interval (Levels = No participation, Participant alone)';
-$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['modulename_link'] = 'mod/slideshow/view';
-$string['optionsheader'] = 'Display options';
 $string['pluginadministration'] = 'Slideshow module administration';
 $string['popupheight'] = 'Pop-up height (in pixels)';
 $string['popupheightexplain'] = 'Specifies default height of popup windows.';

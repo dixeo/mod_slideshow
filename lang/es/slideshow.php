@@ -36,25 +36,10 @@ $string['content'] = 'Contenido de la diapositiva';
 $string['slides'] = 'Diapositivas';
 
 
-$string['configdisplayoptions'] = 'Seleccione todas las opciones que deberían estar disponibles, las configuraciones existentes no se modifican. Mantenga presionada la tecla CTRL para seleccionar múltiples campos.';
 $string['contentheader'] = 'Contenido';
 $string['createslideshow'] = 'Crear nueva presentación de diapositivas';
-$string['displayoptions'] = 'Opciones de visualización disponibles';
-$string['displayselect'] = 'Visualización';
-$string['displayselectexplain'] = 'Seleccione el tipo de visualización.';
-$string['indicator:cognitivedepth'] = 'Profundidad cognitiva de la presentación de diapositivas';
-$string['indicator:cognitivedepth_help'] = 'Este indicador se basa en la profundidad cognitiva alcanzada por el estudiante en un recurso de presentación de diapositivas.';
-$string['indicator:cognitivedepthdef'] = 'Profundidad cognitiva de la presentación de diapositivas';
-$string['indicator:cognitivedepthdef_help'] = 'El participante ha alcanzado este porcentaje del compromiso cognitivo ofrecido por la presentación de diapositivas durante este intervalo de análisis (Niveles = Sin vista, Vista)';
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
-$string['indicator:socialbreadth'] = 'Amplitud social de la presentación';
-$string['indicator:socialbreadth_help'] = 'Este indicador se basa en la amplitud social alcanzada por el estudiante en una presentación de diapositivas.';
-$string['indicator:socialbreadthdef'] = 'Amplitud social de la presentación';
-$string['indicator:socialbreadthdef_help'] = 'El participante ha alcanzado este porcentaje del compromiso social ofrecido por la presentación de diapositivas durante este intervalo de análisis (Niveles = Sin participación, Participante solo)';
-$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['modulename_link'] = 'mod/slideshow/view';
-$string['optionsheader'] = 'Opciones de visualización';
 $string['pluginadministration'] = 'Administración del módulo de presentación de diapositivas';
 $string['popupheight'] = 'Altura de la ventana emergente (en píxeles)';
 $string['popupheightexplain'] = 'Especifica la altura predeterminada de las ventanas emergentes.';

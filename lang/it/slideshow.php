@@ -34,25 +34,10 @@ $string['privacy:metadata'] = 'Il plugin della risorsa Presentazione non memoriz
 $string['content'] = 'Contenuto della diapositiva';
 $string['slides'] = 'Diapositive';
 
-$string['configdisplayoptions'] = 'Seleziona tutte le opzioni che dovrebbero essere disponibili, le impostazioni esistenti non vengono modificate. Tieni premuto il tasto CTRL per selezionare più campi.';
 $string['contentheader'] = 'Contenuto';
 $string['createslideshow'] = 'Crea una nuova risorsa di presentazione';
-$string['displayoptions'] = 'Opzioni di visualizzazione disponibili';
-$string['displayselect'] = 'Visualizza';
-$string['displayselectexplain'] = 'Seleziona il tipo di visualizzazione.';
-$string['indicator:cognitivedepth'] = 'Profondità cognitiva della presentazione';
-$string['indicator:cognitivedepth_help'] = 'Questo indicatore si basa sulla profondità cognitiva raggiunta dallo studente in una risorsa di presentazione.';
-$string['indicator:cognitivedepthdef'] = 'Profondità cognitiva della presentazione';
-$string['indicator:cognitivedepthdef_help'] = 'Il partecipante ha raggiunto questa percentuale di impegno cognitivo offerto dalle risorse di presentazione durante questo intervallo di analisi (Livelli = Nessuna visualizzazione, Visualizzazione)';
-$string['indicator:cognitivedepthdef_link'] = 'Learning_analytics_indicators#Cognitive_depth';
-$string['indicator:socialbreadth'] = 'Ampiezza sociale della presentazione';
-$string['indicator:socialbreadth_help'] = 'Questo indicatore si basa sull\'ampiezza sociale raggiunta dallo studente in una risorsa di presentazione.';
-$string['indicator:socialbreadthdef'] = 'Ampiezza sociale della presentazione';
-$string['indicator:socialbreadthdef_help'] = 'Il partecipante ha raggiunto questa percentuale di impegno sociale offerto dalle risorse di presentazione durante questo intervallo di analisi (Livelli = Nessuna partecipazione, Partecipante da solo)';
-$string['indicator:socialbreadthdef_link'] = 'Learning_analytics_indicators#Social_breadth';
 
 $string['modulename_link'] = 'mod/slideshow/view';
-$string['optionsheader'] = 'Opzioni di visualizzazione';
 $string['pluginadministration'] = 'Amministrazione del modulo presentazione';
 $string['popupheight'] = 'Altezza del pop-up (in pixel)';
 $string['popupheightexplain'] = 'Specifica l\'altezza predefinita delle finestre pop-up.';
