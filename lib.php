@@ -256,11 +256,12 @@ function slideshow_get_file_info($browser, $areas, $course, $cm, $context, $file
     if ($filearea === 'content') {
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
+        $itemid = $itemid === null ? 0 : (int) $itemid;
 
         $urlbase = $CFG->wwwroot.'/pluginfile.php';
-        if (!$storedfile = $fs->get_file($context->id, 'mod_slideshow', 'content', 0, $filepath, $filename)) {
+        if (!$storedfile = $fs->get_file($context->id, 'mod_slideshow', 'content', $itemid, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
-                $storedfile = new virtual_root_file($context->id, 'mod_slideshow', 'content', 0);
+                $storedfile = new virtual_root_file($context->id, 'mod_slideshow', 'content', $itemid);
             } else {
                 // not found
                 return null;
@@ -304,24 +305,30 @@ function slideshow_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     }
 
     if ($filearea === 'content') {
-        $revision = (int)array_shift($args); // Prevents caching problems - ignored here.
-        $relativepath = implode('/', $args);
-        $fullpath = "/$context->id/mod_slideshow/$filearea/0/$relativepath";
-        $options['immutable'] = true; // Add immutable option, $relativepath changes on file update.
+        if (count($args) < 2) {
+            send_header_404();
+            die;
+        }
+        $itemid = (int) array_shift($args);
+        $filename = array_pop($args);
+        $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
+
+        $options['immutable'] = true;
     } else {
         return false;
     }
 
     $fs = get_file_storage();
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
-        if ($filearea === 'content') { // Return file not found straight away to improve performance.
-            send_header_404();
-            die;
-        }
-        return false;
+    $file = $fs->get_file($context->id, 'mod_slideshow', 'content', $itemid, $filepath, $filename);
+    if (!$file || $file->is_directory()) {
+        // Legacy: all slides shared itemid 0; first URL segment was slideshow revision, not slide id.
+        $file = $fs->get_file($context->id, 'mod_slideshow', 'content', 0, $filepath, $filename);
+    }
+    if (!$file || $file->is_directory()) {
+        send_header_404();
+        die;
     }
 
-    // Finally send the file.
     send_stored_file($file, null, 0, $forcedownload, $options);
 }
 
@@ -350,14 +357,19 @@ function slideshow_export_contents($cm, $baseurl) {
 
     // slideshow contents
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'mod_slideshow', 'content', 0, 'sortorder DESC, id ASC', false);
+    $files = $fs->get_area_files($context->id, 'mod_slideshow', 'content', false, 'itemid, filepath, filename', false);
     foreach ($files as $fileinfo) {
+        if ($fileinfo->is_directory()) {
+            continue;
+        }
         $file = array();
         $file['type']         = 'file';
         $file['filename']     = $fileinfo->get_filename();
         $file['filepath']     = $fileinfo->get_filepath();
         $file['filesize']     = $fileinfo->get_filesize();
-        $file['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl, '/'.$context->id.'/mod_slideshow/content/'.$slideshow->revision.$fileinfo->get_filepath().$fileinfo->get_filename(), true);
+        $itemid = $fileinfo->get_itemid();
+        $file['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl,
+            '/' . $context->id . '/mod_slideshow/content/' . $itemid . $fileinfo->get_filepath() . $fileinfo->get_filename(), true);
         $file['timecreated']  = $fileinfo->get_timecreated();
         $file['timemodified'] = $fileinfo->get_timemodified();
         $file['sortorder']    = $fileinfo->get_sortorder();
@@ -514,6 +526,75 @@ function mod_slideshow_core_calendar_provide_event_action(calendar_event $event,
 }
 
 /**
+ * Copy embedded files from legacy shared itemid 0 into each slide's itemid (slideshow_slide.id).
+ *
+ * Used once on upgrade so existing slides keep working when URLs use per-slide itemids.
+ */
+function slideshow_upgrade_migrate_slide_content_files() {
+    global $DB;
+
+    $fs = get_file_storage();
+    $slides = $DB->get_recordset('slideshow_slide', null, '', 'id, slideshow, content');
+    foreach ($slides as $slide) {
+        if ((string) $slide->content === '') {
+            continue;
+        }
+        try {
+            $context = context_module::instance((int) $slide->slideshow, IGNORE_MISSING);
+        } catch (\Exception $e) {
+            continue;
+        }
+        if (!$context) {
+            continue;
+        }
+        $contextid = $context->id;
+        $filerefs = [];
+        if (preg_match_all('#@@PLUGINFILE@@/([^"\'\s<>]+)#', $slide->content, $matches)) {
+            foreach ($matches[1] as $encodedpath) {
+                $rel = urldecode($encodedpath);
+                $rel = trim($rel, '/');
+                if ($rel === '') {
+                    continue;
+                }
+                if (strpos($rel, '/') !== false) {
+                    $filename = basename($rel);
+                    $dir = dirname($rel);
+                    $filepath = ($dir === '.' || $dir === '') ? '/' : '/' . str_replace('\\', '/', $dir) . '/';
+                } else {
+                    $filepath = '/';
+                    $filename = $rel;
+                }
+                if ($filename === '' || $filename === '.') {
+                    continue;
+                }
+                $key = $filepath . '|' . $filename;
+                $filerefs[$key] = [$filepath, $filename];
+            }
+        }
+        foreach ($filerefs as $ref) {
+            [$filepath, $filename] = $ref;
+            if ($fs->file_exists($contextid, 'mod_slideshow', 'content', $slide->id, $filepath, $filename)) {
+                continue;
+            }
+            $source = $fs->get_file($contextid, 'mod_slideshow', 'content', 0, $filepath, $filename);
+            if (!$source || $source->is_directory()) {
+                continue;
+            }
+            $fs->create_file_from_storedfile([
+                'contextid' => $contextid,
+                'component' => 'mod_slideshow',
+                'filearea' => 'content',
+                'itemid' => $slide->id,
+                'filepath' => $filepath,
+                'filename' => $filename,
+                'userid' => $source->get_userid(),
+            ], $source);
+        }
+    }
+    $slides->close();
+}
+
+/**
  * Given an array with a file path, it returns the itemid and the filepath for the defined filearea.
  *
  * @param  string $filearea The filearea.
@@ -521,18 +602,17 @@ function mod_slideshow_core_calendar_provide_event_action(calendar_event $event,
  * @return array The itemid and the filepath inside the $args path, for the defined filearea.
  */
 function mod_slideshow_get_path_from_pluginfile(string $filearea, array $args) : array {
-    // Slideshow never has an itemid (the number represents the revision but it's not stored in database).
-    array_shift($args);
-
-    // Get the filepath.
     if (empty($args)) {
-        $filepath = '/';
-    } else {
-        $filepath = '/' . implode('/', $args) . '/';
+        return [
+            'itemid' => 0,
+            'filepath' => '/',
+        ];
     }
+    $itemid = (int) array_shift($args);
+    $filepath = empty($args) ? '/' : '/' . implode('/', $args) . '/';
 
     return [
-        'itemid' => 0,
+        'itemid' => $itemid,
         'filepath' => $filepath,
     ];
 }

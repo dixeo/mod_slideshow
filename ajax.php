@@ -97,6 +97,10 @@ switch ($action) {
             throw new \moodle_exception('confirmsesskeybad', '', $baseurl);
         }
 
+        $context = context_module::instance($cm->id);
+        $fs = get_file_storage();
+        $fs->delete_area_files($context->id, 'mod_slideshow', 'content', $slideid);
+
         $result = $DB->delete_records('slideshow_slide', ['id' => $slideid]);
 
         // Update sortorder

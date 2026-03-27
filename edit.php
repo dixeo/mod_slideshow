@@ -52,7 +52,11 @@ $editoroptions = slideshow_get_editor_options($context);
 $slide = new stdClass();
 if ($slideid) {
     $record = $DB->get_record('slideshow_slide', array('id' => $slideid), '*', MUST_EXIST);
-    $slide = file_prepare_standard_editor($record, 'content', $editoroptions, $context, 'mod_slideshow', 'content', 0);
+    $slide = file_prepare_standard_editor($record, 'content', $editoroptions, $context, 'mod_slideshow', 'content', (int) $slideid);
+} else {
+    $slide->content = '';
+    $slide->contentformat = FORMAT_HTML;
+    $slide = file_prepare_standard_editor($slide, 'content', $editoroptions, $context, 'mod_slideshow', 'content', 0);
 }
 
 $urlparams = array('cm' => $cm->id, 'id' => $slideid);
@@ -81,7 +85,7 @@ if ($mform->is_cancelled()) {
     }
 
     // Save the files used in the summary editor and store
-    $fromform = file_postupdate_standard_editor($fromform, 'content', $editoroptions, $context, 'mod_slideshow', 'content', 0);
+    $fromform = file_postupdate_standard_editor($fromform, 'content', $editoroptions, $context, 'mod_slideshow', 'content', (int) $fromform->id);
     $DB->set_field('slideshow_slide', 'content', $fromform->content, array('id'=>$fromform->id));
     $DB->set_field('slideshow_slide', 'contentformat', $fromform->contentformat, array('id'=>$fromform->id));
 

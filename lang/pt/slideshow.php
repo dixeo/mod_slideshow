@@ -63,6 +63,7 @@ $string['fullscreen'] = 'Ecrã inteiro';
 $string['edit'] = 'Editar diapositivo';
 $string['reorder'] = 'Reordenar diapositivo';
 $string['noslides'] = 'Esta apresentação está vazia.';
+$string['noslides_teacherhint'] = 'Adicione um novo slide para mostrar conteúdo aqui.';
 $string['hide'] = 'Ocultar diapositivo';
 $string['show'] = 'Mostrar diapositivo';
 $string['delete'] = 'Eliminar diapositivo';

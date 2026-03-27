@@ -64,6 +64,7 @@ $string['fullscreen'] = 'Fullscreen';
 $string['edit'] = 'Edit slide';
 $string['reorder'] = 'Reorder slide';
 $string['noslides'] = 'This slideshow is empty.';
+$string['noslides_teacherhint'] = 'Add a new slide to show content here.';
 $string['hide'] = 'Hide slide';
 $string['show'] = 'Show slide';
 $string['delete'] = 'Delete slide';

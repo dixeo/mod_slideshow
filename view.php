@@ -61,26 +61,29 @@ $PAGE->set_title($course->shortname.': '.$slideshow->name);
 $PAGE->set_heading($course->fullname);
 $PAGE->set_activity_record($slideshow);
 
-$jsparams = ['cmid' => $cm->id];
+$slides = $DB->get_records('slideshow_slide', array('slideshow' => $cm->id, 'hidden' => 0), 'sortorder');
 
-// RequireJS path so presentation loads QR from this plugin (standalone, no local/whatsapp).
-$PAGE->requires->js_amd_inline(
-    'require.config(' . json_encode(['paths' => ['mod_slideshow/qrcode' => $CFG->wwwroot . '/mod/slideshow/js/qrcode-wrapper']]) . ')'
-);
+if ($slides) {
+    $jsparams = ['cmid' => $cm->id];
 
-// Get sharecourse link.
-if (class_exists('\local_sharecourse\sharecourse_helper')) {
-    $sharecoursehelper = new \local_sharecourse\sharecourse_helper($DB);
-    $courseurl = $sharecoursehelper->get_sharecourse_url($course->id);
-    $jsparams['enrolurl'] = $courseurl->out();
+    // RequireJS path so presentation loads QR from this plugin (standalone, no local/whatsapp).
+    $PAGE->requires->js_amd_inline(
+        'require.config(' . json_encode(['paths' => ['mod_slideshow/qrcode' => $CFG->wwwroot . '/mod/slideshow/js/qrcode-wrapper']]) . ')'
+    );
+
+    // Get sharecourse link.
+    if (class_exists('\local_sharecourse\sharecourse_helper')) {
+        $sharecoursehelper = new \local_sharecourse\sharecourse_helper($DB);
+        $courseurl = $sharecoursehelper->get_sharecourse_url($course->id);
+        $jsparams['enrolurl'] = $courseurl->out();
+    }
+
+    $PAGE->requires->js_call_amd('mod_slideshow/presentation', 'init', [$jsparams]);
 }
-
-$PAGE->requires->js_call_amd('mod_slideshow/presentation', 'init', [$jsparams]);
 
 echo $OUTPUT->header();
 
 $slideshtml = '';
-$slides = $DB->get_records('slideshow_slide', array('slideshow' => $cm->id, 'hidden' => 0), 'sortorder');
 
 if ($slides) {
     // Overlay for QR Code
@@ -90,7 +93,7 @@ if ($slides) {
     // Prepare each slide
     $firstslide = true;
     foreach ($slides as $slide) {
-        $content = file_rewrite_pluginfile_urls($slide->content, 'pluginfile.php', $context->id, 'mod_slideshow', 'content', $slideshow->revision);
+        $content = file_rewrite_pluginfile_urls($slide->content, 'pluginfile.php', $context->id, 'mod_slideshow', 'content', $slide->id);
         $formatoptions = new stdClass;
         $formatoptions->noclean = true;
         $formatoptions->overflowdiv = true;
@@ -169,7 +172,14 @@ if ($slides) {
         echo $editbutton;
     }
 } else {
+    echo $OUTPUT->box_start('generalbox slideshow-empty clearfix');
     echo html_writer::tag('p', get_string('noslides', 'slideshow'));
+    if (has_capability('mod/slideshow:viewslides', $context)) {
+        echo html_writer::tag('p', get_string('noslides_teacherhint', 'slideshow'));
+        $addslideurl = new moodle_url('/mod/slideshow/edit.php', ['cm' => $cm->id]);
+        echo html_writer::link($addslideurl, get_string('addnew', 'slideshow'), ['class' => 'btn btn-primary']);
+    }
+    echo $OUTPUT->box_end();
 }
 
 echo $OUTPUT->footer();

@@ -69,15 +69,17 @@ $slides = $DB->get_records('slideshow_slide', array('slideshow' => $cm->id), 'so
 $data = new stdClass();
 $data->slideshow = $cm->id;
 $data->slides = [];
+$displayindex = 1;
 foreach ($slides as $slide) {
     $data->slides[] = [
         'id' => $slide->id,
         'name' => substr(strip_tags(strtok($slide->content, "\n")), 0, 255),
         'slideshow' => $slide->slideshow,
         'sortorder' => $slide->sortorder,
-        'index' => $slide->sortorder + 1,
+        'index' => $displayindex,
         'hidden' => $slide->hidden,
     ];
+    $displayindex++;
 }
 
 echo $OUTPUT->render_from_template('mod_slideshow/slideshow', $data);

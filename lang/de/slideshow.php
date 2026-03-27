@@ -63,6 +63,7 @@ $string['fullscreen'] = 'Vollbild';
 $string['edit'] = 'Folie bearbeiten';
 $string['reorder'] = 'Folie neu anordnen';
 $string['noslides'] = 'Diese Slideshow ist leer.';
+$string['noslides_teacherhint'] = 'Fügen Sie eine neue Folie hinzu, um Inhalte hier anzuzeigen.';
 $string['hide'] = 'Folie ausblenden';
 $string['show'] = 'Folie anzeigen';
 $string['delete'] = 'Folie löschen';
