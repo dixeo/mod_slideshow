@@ -1,5 +1,6 @@
 <?php
-
+// This file is part of Moodle - http://moodle.org/
+//
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -29,10 +30,10 @@ $cmid = required_param('cm', PARAM_INT);
 $slideid = optional_param('id', 0, PARAM_INT);
 
 $pluginmanager = \core_plugin_manager::instance();
-$localcontenteditor = $pluginmanager->get_plugin_info('local_edai_course_editor');
+$localcontenteditor = $pluginmanager->get_plugin_info('local_dixeo_editor');
 if ($slideid && $localcontenteditor) {
     // Plugin is available, you can use it.
-    redirect(new moodle_url('/local/edai_course_editor/content_edition.php', ['cmid' => $cmid, 'slideid' => $slideid]));
+    redirect(new moodle_url('/local/dixeo_editor/content_edition.php', ['cmid' => $cmid, 'slideid' => $slideid]));
 }
 
 // Check the course module exists.
@@ -47,6 +48,7 @@ require_login($course);
 $returnurl = new moodle_url("/mod/$module->name/slides.php", array('id' => $cm->id));
 
 $context = context_module::instance($cm->id);
+require_capability('mod/slideshow:viewslides', $context);
 $editoroptions = slideshow_get_editor_options($context);
 
 $slide = new stdClass();

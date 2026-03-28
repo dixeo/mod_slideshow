@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>js/slip.js</location>
+    <name>Slip.js</name>
+    <description>Touch and pointer list swipe/reorder events for DOM lists.</description>
+    <version>1.0</version>
+    <license>BSD</license>
+    <licenseversion>2-Clause</licenseversion>
+    <repository>https://github.com/kornelski/slip</repository>
+    <copyrights>
+      <copyright>2014 Kornel Lesiński</copyright>
+    </copyrights>
+    <customised/>
+  </library>
+  <library>
+    <location>js/qrcode-wrapper.js</location>
+    <name>qrcodejs (QRCode for JavaScript)</name>
+    <description>Cross-browser QR code generator; minified upstream build embedded in the AMD wrapper.</description>
+    <version>0.0.1</version>
+    <license>MIT</license>
+    <licenseversion></licenseversion>
+    <repository>https://github.com/davidshimjs/qrcodejs</repository>
+    <copyrights>
+      <copyright>2012 davidshimjs (MIT License)</copyright>
+    </copyrights>
+    <customised/>
+  </library>
+</libraries>

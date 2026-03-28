@@ -1,15 +1,39 @@
-.slideshow-container {
+/*
+ * This file is part of Moodle - http://moodle.org/
+ *
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
+ * Slideshow module styles.
+ *
+ * @package    mod_slideshow
+ * @copyright  2024 Josemaria Bolanos <admin@mako.digital>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+body.path-mod-slideshow .slideshow-container {
     font-size: 1rem;
 }
 
-.slideshow-container .currentslide {
+body.path-mod-slideshow .slideshow-container .currentslide {
     user-select: none;
     -webkit-user-select: none;
     pointer-events: none;
     cursor: default;
 }
 
-.slideshow-container.fullscreen {
+body.path-mod-slideshow .slideshow-container.fullscreen {
     font-size: 3rem;
     height: 1vh !important;
     padding: 0 !important;
@@ -17,50 +41,55 @@
 }
 
 /* Slide content: inherit base size from container so the font-size slider scales everything. */
-.slideshow-container .slide,
-.slideshow-container.fullscreen .slide {
+body.path-mod-slideshow .slideshow-container .slide,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide {
     font-size: inherit;
 }
 
 /* Match theme heading ratios (branding.scss) using em so they scale with the slider. */
-.slideshow-container .slide h1,
-.slideshow-container .slide .h1,
-.slideshow-container.fullscreen .slide h1,
-.slideshow-container.fullscreen .slide .h1 {
+body.path-mod-slideshow .slideshow-container .slide h1,
+body.path-mod-slideshow .slideshow-container .slide .h1,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide h1,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide .h1 {
     font-size: 2.34375em;
 }
-.slideshow-container .slide h2,
-.slideshow-container .slide .h2,
-.slideshow-container.fullscreen .slide h2,
-.slideshow-container.fullscreen .slide .h2 {
+
+body.path-mod-slideshow .slideshow-container .slide h2,
+body.path-mod-slideshow .slideshow-container .slide .h2,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide h2,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide .h2 {
     font-size: 1.875em;
 }
-.slideshow-container .slide h3,
-.slideshow-container .slide .h3,
-.slideshow-container.fullscreen .slide h3,
-.slideshow-container.fullscreen .slide .h3 {
+
+body.path-mod-slideshow .slideshow-container .slide h3,
+body.path-mod-slideshow .slideshow-container .slide .h3,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide h3,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide .h3 {
     font-size: 1.640625em;
 }
-.slideshow-container .slide h4,
-.slideshow-container .slide .h4,
-.slideshow-container.fullscreen .slide h4,
-.slideshow-container.fullscreen .slide .h4 {
+
+body.path-mod-slideshow .slideshow-container .slide h4,
+body.path-mod-slideshow .slideshow-container .slide .h4,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide h4,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide .h4 {
     font-size: 1.40625em;
 }
-.slideshow-container .slide h5,
-.slideshow-container .slide .h5,
-.slideshow-container.fullscreen .slide h5,
-.slideshow-container.fullscreen .slide .h5 {
+
+body.path-mod-slideshow .slideshow-container .slide h5,
+body.path-mod-slideshow .slideshow-container .slide .h5,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide h5,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide .h5 {
     font-size: 1.171875em;
 }
-.slideshow-container .slide h6,
-.slideshow-container .slide .h6,
-.slideshow-container.fullscreen .slide h6,
-.slideshow-container.fullscreen .slide .h6 {
+
+body.path-mod-slideshow .slideshow-container .slide h6,
+body.path-mod-slideshow .slideshow-container .slide .h6,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide h6,
+body.path-mod-slideshow .slideshow-container.fullscreen .slide .h6 {
     font-size: 0.9375em;
 }
 
-.slideshow-container > .slide {
+body.path-mod-slideshow .slideshow-container > .slide {
     width: 100%;
     min-height: 440px;
     position: relative;
@@ -69,41 +98,41 @@
     border-bottom: none;
 }
 
-.slideshow-container.fullscreen .slide {
+body.path-mod-slideshow .slideshow-container.fullscreen .slide {
     min-height: 100%;
     border: none;
 }
 
-.slideshow-container .slide > div {
+body.path-mod-slideshow .slideshow-container .slide > div {
     position: absolute;
     width: 90%;
     margin: 5%;
     padding-bottom: 5%;
 }
 
-.slideshow-container.fullscreen .slide > div {
+body.path-mod-slideshow .slideshow-container.fullscreen .slide > div {
     border: none;
 }
 
-.slideshow-container .watermark {
+body.path-mod-slideshow .slideshow-container .watermark {
     float: right;
     margin-top: -115px;
     pointer-events: none;
 }
 
-.slideshow-container .watermark img {
+body.path-mod-slideshow .slideshow-container .watermark img {
     filter: grayscale(0.5) opacity(0.4);
     height: 75px;
     margin: 20px;
 }
 
-.slideshow-container.fullscreen .watermark {
+body.path-mod-slideshow .slideshow-container.fullscreen .watermark {
     position: absolute;
     right: 7px;
     bottom: 25px;
 }
 
-.slideshow-container .slidecontrols {
+body.path-mod-slideshow .slideshow-container .slidecontrols {
     width: 100%;
     font-size: 1rem;
     background: #edf5fe;
@@ -111,9 +140,9 @@
     padding: 6px 0;
 }
 
-.slideshow-container .slidecontrols .navbuttons,
-.slideshow-container .slidecontrols .currentslide,
-.slideshow-container .slidecontrols .controls {
+body.path-mod-slideshow .slideshow-container .slidecontrols .navbuttons,
+body.path-mod-slideshow .slideshow-container .slidecontrols .currentslide,
+body.path-mod-slideshow .slideshow-container .slidecontrols .controls {
     width: 33%;
     text-align: center;
     display: inline-block;
@@ -121,95 +150,95 @@
     font-weight: 600;
 }
 
-.slideshow-container .slidecontrols .navbuttons {
+body.path-mod-slideshow .slideshow-container .slidecontrols .navbuttons {
     text-align: left;
     padding-left: 10px;
 }
 
-.slideshow-container .slidecontrols .controls {
+body.path-mod-slideshow .slideshow-container .slidecontrols .controls {
     text-align: right;
 }
 
-.slideshow-container .slidecontrols .decrease {
+body.path-mod-slideshow .slideshow-container .slidecontrols .decrease {
     font-size: 10px;
     margin: 0;
 }
 
-.slideshow-container .slidecontrols .fontsize {
+body.path-mod-slideshow .slideshow-container .slidecontrols .fontsize {
     margin-top: -6px;
     margin-right: 2px;
     width: 60px;
     height: 12px;
 }
 
-.slideshow-container .slidecontrols .increase {
+body.path-mod-slideshow .slideshow-container .slidecontrols .increase {
     margin-right: 20px;
 }
 
-.slideshow-container .slidecontrols .prev,
-.slideshow-container .slidecontrols .next,
-.slideshow-container .slidecontrols .qrcode,
-.slideshow-container .slidecontrols .fullscreen {
+body.path-mod-slideshow .slideshow-container .slidecontrols .prev,
+body.path-mod-slideshow .slideshow-container .slidecontrols .next,
+body.path-mod-slideshow .slideshow-container .slidecontrols .qrcode,
+body.path-mod-slideshow .slideshow-container .slidecontrols .fullscreen {
     color: #138df0;
     cursor: pointer;
 }
 
-.slideshow-container .slidecontrols .prev.disabled,
-.slideshow-container .slidecontrols .next.disabled {
+body.path-mod-slideshow .slideshow-container .slidecontrols .prev.disabled,
+body.path-mod-slideshow .slideshow-container .slidecontrols .next.disabled {
     color: #6a737b;
     cursor: default;
 }
 
-.slideshow-container.fullscreen .slidecontrols {
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols {
     height: 52px;
     position: absolute;
     bottom: 0;
     background: rgba(255, 255, 255, 0);
 }
 
-.slideshow-container.fullscreen .slidecontrols .navbuttons,
-.slideshow-container.fullscreen .slidecontrols .currentslide,
-.slideshow-container.fullscreen .slidecontrols .controls, 
-.slideshow-container.fullscreen .slidecontrols .icon {
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .navbuttons,
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .currentslide,
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .controls,
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .icon {
     font-size: 24px;
     color: rgba(0, 0, 0, 0.4);
 }
 
-.slideshow-container.fullscreen .slidecontrols .decrease {
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .decrease {
     font-size: 18px;
     margin-right: 5px;
 }
 
-.slideshow-container.fullscreen .slidecontrols .navbuttons {
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .navbuttons {
     padding-left: 20px;
 }
 
-.slideshow-container.fullscreen .slidecontrols .prev {
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .prev {
     margin-right: 15px;
 }
 
-.slideshow-container.fullscreen .slidecontrols .disabled {
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .disabled {
     opacity: 0.65;
 }
 
-.slideshow-container.fullscreen .slidecontrols .increase,
-.slideshow-container.fullscreen .slidecontrols .qrcode,
-.slideshow-container.fullscreen .slidecontrols .fullscreen {
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .increase,
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .qrcode,
+body.path-mod-slideshow .slideshow-container.fullscreen .slidecontrols .fullscreen {
     margin-right: 30px;
 }
 
-.slideshow-container .slidecontrols .fullscreen {
+body.path-mod-slideshow .slideshow-container .slidecontrols .fullscreen {
     border: none;
     cursor: pointer;
     background: none;
     padding: 0;
 }
 
-.slideshow-container.fullscreen #fontsize-slider {
+body.path-mod-slideshow .slideshow-container.fullscreen #fontsize-slider {
     opacity: 0.4;
 }
 
-.slideshow-container .overlay {
+body.path-mod-slideshow .slideshow-container .overlay {
     position: absolute;
     min-height: 440px;
     display: block;
@@ -221,15 +250,15 @@
     text-align: center;
 }
 
-.slideshow-container.fullscreen .overlay {
+body.path-mod-slideshow .slideshow-container.fullscreen .overlay {
     min-height: 100%;
 }
 
-.slideshow-container .overlay.hidden {
+body.path-mod-slideshow .slideshow-container .overlay.hidden {
     display: none;
 }
 
-.slideshow-container .overlay .scantoenrol {
+body.path-mod-slideshow .slideshow-container .overlay .scantoenrol {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -237,40 +266,39 @@
     transform: translate(-50%, -50%);
 }
 
-.slideshow-container.fullscreen .overlay .scantoenrol {
+body.path-mod-slideshow .slideshow-container.fullscreen .overlay .scantoenrol {
     -ms-transform: scale(2) translate(-25%, -25%);
     transform: scale(2) translate(-25%, -25%);
 }
 
-.slideshow-container .slidecontrols .qrcode {
+body.path-mod-slideshow .slideshow-container .slidecontrols .qrcode {
     margin-right: 15px;
 }
 
 @media (max-width: 678px) {
-    .slideshow-container .slidecontrols .navbuttons,
-    .slideshow-container .slidecontrols .currentslide {
+    body.path-mod-slideshow .slideshow-container .slidecontrols .navbuttons,
+    body.path-mod-slideshow .slideshow-container .slidecontrols .currentslide {
         width: 25%;
     }
-    
-    .slideshow-container .slidecontrols .controls {
+
+    body.path-mod-slideshow .slideshow-container .slidecontrols .controls {
         width: 50%;
     }
 }
 
-
 /*  Slide list  */
-#slide-list {
+body.path-mod-slideshow #slide-list {
     list-style: none;
     padding: 0px;
 }
 
-#slide-list .group:after {
+body.path-mod-slideshow #slide-list .group:after {
     content: "";
     display: table;
     clear: both;
 }
 
-#slide-list .slide-item {
+body.path-mod-slideshow #slide-list .slide-item {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -283,12 +311,12 @@
     -webkit-user-select: none;
 }
 
-#slide-list .slide-item .slip-reordering {
+body.path-mod-slideshow #slide-list .slide-item .slip-reordering {
     -webkit-box-shadow: 0 0 5px 5px rgba(0,0,0,0.02);
     box-shadow: 0 0 5px 5px rgba(0,0,0,0.03);
 }
 
-#slide-list .slide-item .handle {
+body.path-mod-slideshow #slide-list .slide-item .handle {
     float: left;
     color: gray;
     text-align: center;
@@ -296,7 +324,7 @@
     width: 5%;
 }
 
-#slide-list .slide-item .handle:after {
+body.path-mod-slideshow #slide-list .slide-item .handle:after {
     content: "\2261";
     font-size: 35px;
     color: gray;
@@ -305,58 +333,52 @@
     line-height: 30px;
 }
 
-#slide-list .slide-item .name {
+body.path-mod-slideshow #slide-list .slide-item .name {
     font-weight: 700;
     display: inline-block;
     width: 79%;
     padding-left: 10px;
 }
 
-#slide-list .slide-item .actions {
+body.path-mod-slideshow #slide-list .slide-item .actions {
     display: inline-block;
     width: 15%;
     text-align: right;
     vertical-align: top;
 }
 
-#slide-list .actions button {
+body.path-mod-slideshow #slide-list .actions button {
     padding: 2px 4px;
     border-radius: 0px;
 }
 
-#slide-list .actions button i {
+body.path-mod-slideshow #slide-list .actions button i {
     margin: 0;
     color: var(--blue);
 }
 
-
 @media (max-width: 678px) {
-    #slide-list .slide-item .handle {
+    body.path-mod-slideshow #slide-list .slide-item .handle {
         width: 10%;
     }
 
-    #slide-list .slide-item .name {
+    body.path-mod-slideshow #slide-list .slide-item .name {
         width: 90%;
     }
 
-    #slide-list .slide-item .actions {
+    body.path-mod-slideshow #slide-list .slide-item .actions {
         margin-top: 15px;
         width: 100%;
     }
 }
 
-
-
 /* Play button  */
-#page-mod-slideshow-slides .play-button i {
+body.path-mod-slideshow #page-mod-slideshow-slides .play-button i {
     font-size: 23px;
 }
 
-
-
-
 /* Pexels images */
-.slideshow-container .pexels-credits,
-.slideshow-container.fullscreen .pexels-credits {
+body.path-mod-slideshow .slideshow-container .pexels-credits,
+body.path-mod-slideshow .slideshow-container.fullscreen .pexels-credits {
     font-size: 0.8rem;
 }

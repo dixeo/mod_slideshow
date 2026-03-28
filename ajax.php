@@ -47,6 +47,9 @@ $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
 
 require_course_login($course, true, $cm);
 
+$context = context_module::instance($cm->id);
+require_capability('mod/slideshow:viewslides', $context);
+
 if (!confirm_sesskey()) {
     $error = array('error'=>get_string('invalidsesskey', 'error'));
     die(json_encode($error));
@@ -93,11 +96,6 @@ switch ($action) {
 
         break;
     case 'delete':
-        if (!confirm_sesskey()) {
-            throw new \moodle_exception('confirmsesskeybad', '', $baseurl);
-        }
-
-        $context = context_module::instance($cm->id);
         $fs = get_file_storage();
         $fs->delete_area_files($context->id, 'mod_slideshow', 'content', $slideid);
 

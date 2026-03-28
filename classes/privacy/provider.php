@@ -15,16 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Slideshow module version information
+ * Privacy API for mod_slideshow.
  *
  * @package    mod_slideshow
  * @copyright  2024 Josemaria Bolanos <admin@mako.digital>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_slideshow\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026032811;        // The current module version (Date: YYYYMMDDXX).
-$plugin->requires  = 2023100900;        // Moodle 4.3 (Build: 20231009) minimum.
-$plugin->component = 'mod_slideshow';   // Full name of the plugin (used for diagnostics)
-$plugin->cron      = 0;
+/**
+ * Slideshow stores course resource content only (no per-user rows in plugin tables), like mod_page.
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    /**
+     * @return string
+     */
+    public static function get_reason(): string {
+        return 'privacy:metadata';
+    }
+}

@@ -26,10 +26,14 @@
  $string['pluginname'] = 'Slideshow';
  $string['modulename'] = 'Slideshow';
  $string['modulenameplural'] = 'Slideshows';
- $string['modulename_help'] = 'The slideshow module enables a teacher to create a web slideshow resource using the text editor. Each slide can display text, images, sound, video, web links and embedded code, such as Google maps.';
+ $string['modulename_help'] = 'Slideshow is a resource for building multi-slide presentations in a course. Each slide uses the text editor so you can mix text, media, links, and embeds. Learners get navigation, resizable text, and fullscreen; teachers can add, hide, and reorder slides.';
  $string['slideshow:view'] = 'View slideshow content';
  $string['slideshow:addinstance'] = 'Add a new slideshow resource';
  $string['slideshow:viewslides'] = 'View slides';
+
+ $string['errorcontainernotfound'] = 'Slideshow container not found.';
+ $string['fullscreennotsupported'] = 'Fullscreen mode is not supported by your browser.';
+ $string['fullscreenexitnotsupported'] = 'Fullscreen exit is not supported by your browser.';
 
  $string['privacy:metadata'] = 'The Slideshow resource plugin does not store any personal data.';
  $string['content'] = 'Slide content';

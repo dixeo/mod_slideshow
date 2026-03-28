@@ -37,7 +37,7 @@ function slideshow_supports($feature) {
         case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
         case FEATURE_GRADE_HAS_GRADE:         return false;
         case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_BACKUP_MOODLE2:          return false;
+        case FEATURE_BACKUP_MOODLE2:          return true;
         case FEATURE_SHOW_DESCRIPTION:        return true;
         case FEATURE_MOD_PURPOSE:             return MOD_PURPOSE_CONTENT;
 
@@ -158,13 +158,17 @@ function slideshow_delete_instance($id) {
         return false;
     }
 
-    $cm = get_coursemodule_from_instance('slideshow', $id);
+    $cm = get_coursemodule_from_instance('slideshow', $id, 0, false, MUST_EXIST);
     \core_completion\api::update_completion_date_event($cm->id, 'slideshow', $id, null);
 
-    // note: all context files are deleted automatically
+    // Slides key off course module id in current code; older rows may use instance id.
+    $DB->delete_records_select(
+        'slideshow_slide',
+        'slideshow = :cmid OR slideshow = :iid',
+        ['cmid' => $cm->id, 'iid' => $slideshow->id]
+    );
 
-    $DB->delete_records('slideshow', array('id'=>$slideshow->id));
-    $DB->delete_records('slideshow_slide', array('slideshow'=>$slideshow->id));
+    $DB->delete_records('slideshow', array('id' => $slideshow->id));
 
     return true;
 }
