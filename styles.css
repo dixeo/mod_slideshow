@@ -22,7 +22,7 @@
     font-size: inherit;
 }
 
-/* Match theme/edunao123 heading ratios (branding.scss) using em so they scale with the slider. */
+/* Match theme heading ratios (branding.scss) using em so they scale with the slider. */
 .slideshow-container .slide h1,
 .slideshow-container .slide .h1,
 .slideshow-container.fullscreen .slide h1,
