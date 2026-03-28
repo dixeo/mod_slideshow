@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/slideshow/locallib.php');
-require_once($CFG->libdir.'/filelib.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/mod/slideshow/locallib.php');
+require_once($CFG->libdir . '/filelib.php');
 
 /**
  * Form used when creating or editing one slideshow slide.
@@ -36,7 +36,7 @@ class mod_slideshow_slide_edit_form extends moodleform {
      * Define form fields.
      */
     protected function definition() {
-        global $CFG, $DB;
+        global $CFG;
 
         $mform = $this->_form;
         $customdata = $this->_customdata;

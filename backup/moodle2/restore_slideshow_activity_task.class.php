@@ -30,7 +30,6 @@ require_once($CFG->dirroot . '/mod/slideshow/backup/moodle2/restore_slideshow_st
  * Restore task implementation.
  */
 class restore_slideshow_activity_task extends restore_activity_task {
-
     /**
      * No extra restore settings.
      */

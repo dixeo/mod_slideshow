@@ -27,30 +27,30 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
         init: (slideshow) => {
             var ul = document.querySelector('#slide-list[data-cmid="' + slideshow + '"]');
 
-            ul.addEventListener('slip:beforereorder', function(e){
+            ul.addEventListener('slip:beforereorder', function(e) {
                 if (/demo-no-reorder/.test(e.target.className)) {
                     e.preventDefault();
                 }
             }, false);
 
-            ul.addEventListener('slip:beforeswipe', function(e){
+            ul.addEventListener('slip:beforeswipe', function(e) {
                 if (e.target.nodeName == 'INPUT' || /no-swipe/.test(e.target.className)) {
                     e.preventDefault();
                 }
             }, false);
 
-            ul.addEventListener('slip:beforewait', function(e){
-                if (e.target.className.indexOf('instant') > -1) { e.preventDefault(); }
+            ul.addEventListener('slip:beforewait', function(e) {
+                if (e.target.className.indexOf('instant') > -1) {
+                    e.preventDefault();
+                }
             }, false);
 
-            ul.addEventListener('slip:reorder', function(e){
+            ul.addEventListener('slip:reorder', function(e) {
                 e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
 
                 let slideid = e.target.dataset.id;
                 let oldorder = e.detail.originalIndex;
                 let neworder = e.detail.spliceIndex;
-
-                // console.log("Reorder slide ID " + slideid + " from " + oldorder + " to " + neworder);
 
                 if (neworder !== oldorder) {
                     changeSortOrder(slideid, neworder, oldorder);
@@ -63,15 +63,15 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
 
             var items = ul.querySelectorAll(".handle");
             items.forEach(function(item) {
-                item.addEventListener('mousedown', function(){
+                item.addEventListener('mousedown', function() {
                     this.style.cursor = "-webkit-grabbing";
                     this.style.cursor = "-moz-grabbing";
                 });
-                item.addEventListener('mouseover', function(){
+                item.addEventListener('mouseover', function() {
                     this.style.cursor = "-webkit-grab";
                     this.style.cursor = "-moz-grab";
                 });
-                item.addEventListener('mouseup', function(){
+                item.addEventListener('mouseup', function() {
                     this.style.cursor = "-webkit-grab";
                     this.style.cursor = "-moz-grab";
                 });
@@ -109,11 +109,11 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
             });
 
             /**
-            * Change sort order
-            * @param {Number} slideid Slide ID
-            * @param {Number} neworder New order
-            * @param {Number} oldorder Old order
-            */
+             * Change sort order
+             * @param {Number} slideid Slide ID
+             * @param {Number} neworder New order
+             * @param {Number} oldorder Old order
+             */
             let changeSortOrder = (slideid, neworder, oldorder) => {
                 var ul = document.querySelector('#slide-list[data-cmid="' + slideshow + '"]');
 
@@ -135,13 +135,16 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
                 $.ajax(URL, settings)
                 .done(function() {
                     updateSortorderUI(ul);
+                })
+                .fail(function() {
+                    // Request failed; list order may be stale until refresh.
                 });
             };
 
             /**
-            * Update sort order numbers in UI
-            * @param {Element} ul Slide list
-            */
+             * Update sort order numbers in UI
+             * @param {Element} ul Slide list
+             */
             let updateSortorderUI = (ul) => {
                 let sortorder = 1;
                 let slides = ul.querySelectorAll('.slide-item');
@@ -154,10 +157,10 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
             };
 
             /**
-            * Hide/show slide
-            * @param {Number} slideid Slide ID
-            * @param {String} action Action
-            */
+             * Hide/show slide
+             * @param {Number} slideid Slide ID
+             * @param {String} action Action
+             */
             let hideShowSlide = (slideid, action) => {
                 var ul = document.querySelector('#slide-list[data-cmid="' + slideshow + '"]');
 
@@ -187,13 +190,16 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
                         hide.classList.add('hidden');
                         show.classList.remove('hidden');
                     }
+                })
+                .fail(function() {
+                    // Request failed.
                 });
             };
 
             /**
-            * Confirm slide deletion
-            * @param {Number} slideid Slide ID
-            */
+             * Confirm slide deletion
+             * @param {Number} slideid Slide ID
+             */
             let confirmDeleteSlide = (slideid) => {
                 let deleteStr = str.get_string('delete', 'slideshow');
                 let deleteConfirmStr = str.get_string('deleteconfirm', 'slideshow');
@@ -211,15 +217,18 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
                     modal.getRoot().on(ModalEvents.save, function() {
                         deleteSlide(slideid);
                     });
-
                     modal.show();
+                    return modal;
+                })
+                .catch(function() {
+                    // Modal could not be created.
                 });
             };
 
             /**
-            * Delete slide
-            * @param {Number} slideid Slide ID
-            */
+             * Delete slide
+             * @param {Number} slideid Slide ID
+             */
             let deleteSlide = (slideid) => {
                 var ul = document.querySelector('#slide-list[data-cmid="' + slideshow + '"]');
 
@@ -244,6 +253,9 @@ define(['core/config', 'jquery', 'core/modal_save_cancel', 'core/modal_events', 
                         slide.remove();
                         updateSortorderUI(ul);
                     }
+                })
+                .fail(function() {
+                    // Request failed.
                 });
             };
         }

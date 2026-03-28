@@ -34,4 +34,3 @@ namespace mod_slideshow\event;
  */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
 }
-

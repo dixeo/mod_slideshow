@@ -28,7 +28,6 @@ namespace mod_slideshow\privacy;
  * Slideshow stores course resource content only (no per-user rows in plugin tables), like mod_page.
  */
 class provider implements \core_privacy\local\metadata\null_provider {
-
     /**
      * Summarise why this plugin is a null privacy provider.
      *

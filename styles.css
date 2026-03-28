@@ -35,9 +35,9 @@ body.path-mod-slideshow .slideshow-container .currentslide {
 
 body.path-mod-slideshow .slideshow-container.fullscreen {
     font-size: 3rem;
-    height: 1vh !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    height: 1vh;
+    padding: 0;
+    margin: 0;
 }
 
 /* Slide content: inherit base size from container so the font-size slider scales everything. */
@@ -136,7 +136,7 @@ body.path-mod-slideshow .slideshow-container .slidecontrols {
     width: 100%;
     font-size: 1rem;
     background: #edf5fe;
-    border-radius: 0px 0px 3px 3px;
+    border-radius: 0 0 3px 3px;
     padding: 6px 0;
 }
 
@@ -289,7 +289,7 @@ body.path-mod-slideshow .slideshow-container .slidecontrols .qrcode {
 /*  Slide list  */
 body.path-mod-slideshow #slide-list {
     list-style: none;
-    padding: 0px;
+    padding: 0;
 }
 
 body.path-mod-slideshow #slide-list .group:after {
@@ -312,8 +312,8 @@ body.path-mod-slideshow #slide-list .slide-item {
 }
 
 body.path-mod-slideshow #slide-list .slide-item .slip-reordering {
-    -webkit-box-shadow: 0 0 5px 5px rgba(0,0,0,0.02);
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.03);
+    -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
 }
 
 body.path-mod-slideshow #slide-list .slide-item .handle {
@@ -349,7 +349,7 @@ body.path-mod-slideshow #slide-list .slide-item .actions {
 
 body.path-mod-slideshow #slide-list .actions button {
     padding: 2px 4px;
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 body.path-mod-slideshow #slide-list .actions button i {

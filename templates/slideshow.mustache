@@ -30,6 +30,20 @@
 
     Context variables required for this template:
     * slides
+
+    Example context (json):
+    {
+        "slideshow": 1,
+        "slides": [
+            {
+                "sortorder": 1,
+                "id": 10,
+                "index": "1",
+                "name": "Introduction",
+                "hidden": false
+            }
+        ]
+    }
 }}
 
 <div class="generalbox center clearfix">
@@ -50,7 +64,7 @@
                     </button>
                     <button title="{{#str}}edit, slideshow{{/str}}" class="edit btn btn-default">
                         {{#pix}} i/manual_item, core {{/pix}}
-                    </a>
+                    </button>
                 </div>
             </li>
         {{/slides}}

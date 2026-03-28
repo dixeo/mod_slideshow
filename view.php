@@ -23,9 +23,9 @@
  */
 
 require('../../config.php');
-require_once($CFG->dirroot.'/mod/slideshow/lib.php');
-require_once($CFG->dirroot.'/mod/slideshow/locallib.php');
-require_once($CFG->libdir.'/completionlib.php');
+require_once($CFG->dirroot . '/mod/slideshow/lib.php');
+require_once($CFG->dirroot . '/mod/slideshow/locallib.php');
+require_once($CFG->libdir . '/completionlib.php');
 
 $id      = optional_param('id', 0, PARAM_INT); // Course module id.
 $p       = optional_param('p', 0, PARAM_INT);  // Slideshow instance id.
@@ -36,7 +36,6 @@ if ($p) {
         throw new \moodle_exception('invalidaccessparameter');
     }
     $cm = get_coursemodule_from_instance('slideshow', $slideshow->id, $slideshow->course, false, MUST_EXIST);
-
 } else {
     if (!$cm = get_coursemodule_from_id('slideshow', $id)) {
         throw new \moodle_exception('invalidcoursemodule');
@@ -56,7 +55,7 @@ slideshow_view($slideshow, $course, $cm, $context);
 $PAGE->set_url('/mod/slideshow/view.php', ['id' => $cm->id]);
 
 $PAGE->add_body_class('limitedwidth');
-$PAGE->set_title($course->shortname.': '.$slideshow->name);
+$PAGE->set_title($course->shortname . ': ' . $slideshow->name);
 $PAGE->set_heading($course->fullname);
 $PAGE->set_activity_record($slideshow);
 
@@ -103,7 +102,7 @@ if ($slides) {
             'content',
             $slide->id
         );
-        $formatoptions = new stdClass;
+        $formatoptions = new stdClass();
         $formatoptions->noclean = true;
         $formatoptions->overflowdiv = true;
         $formatoptions->context = $context;

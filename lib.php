@@ -197,8 +197,13 @@ function slideshow_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
-    if (!$slideshow = $DB->get_record('slideshow', ['id' => $coursemodule->instance],
-            'id, name, display, displayoptions, intro, introformat')) {
+    if (
+        !$slideshow = $DB->get_record(
+            'slideshow',
+            ['id' => $coursemodule->instance],
+            'id, name, display, displayoptions, intro, introformat'
+        )
+    ) {
         return null;
     }
 
@@ -273,7 +278,7 @@ function slideshow_get_file_info($browser, $areas, $course, $cm, $context, $file
         $filename = is_null($filename) ? '.' : $filename;
         $itemid = $itemid === null ? 0 : (int) $itemid;
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot . '/pluginfile.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_slideshow', 'content', $itemid, $filepath, $filename)) {
             if ($filepath === '/' && $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_slideshow', 'content', $itemid);
@@ -315,7 +320,7 @@ function slideshow_get_file_info($browser, $areas, $course, $cm, $context, $file
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function slideshow_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=[]) {
+function slideshow_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
@@ -395,8 +400,11 @@ function slideshow_export_contents($cm, $baseurl) {
         $file['filepath']     = $fileinfo->get_filepath();
         $file['filesize']     = $fileinfo->get_filesize();
         $itemid = $fileinfo->get_itemid();
-        $file['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl,
-            '/' . $context->id . '/mod_slideshow/content/' . $itemid . $fileinfo->get_filepath() . $fileinfo->get_filename(), true);
+        $file['fileurl']      = file_encode_url(
+            "$CFG->wwwroot/" . $baseurl,
+            '/' . $context->id . '/mod_slideshow/content/' . $itemid . $fileinfo->get_filepath() . $fileinfo->get_filename(),
+            true
+        );
         $file['timecreated']  = $fileinfo->get_timecreated();
         $file['timemodified'] = $fileinfo->get_timemodified();
         $file['sortorder']    = $fileinfo->get_sortorder();
@@ -456,7 +464,7 @@ function slideshow_dndupload_handle($uploadinfo) {
     $data = new stdClass();
     $data->course = $uploadinfo->course->id;
     $data->name = $uploadinfo->displayname;
-    $data->intro = '<p>'.$uploadinfo->displayname.'</p>';
+    $data->intro = '<p>' . $uploadinfo->displayname . '</p>';
     $data->introformat = FORMAT_HTML;
     if ($uploadinfo->type == 'text/html') {
         $data->contentformat = FORMAT_HTML;
@@ -531,8 +539,11 @@ function slideshow_check_updates_since(cm_info $cm, $from, $filter = []) {
  * @param int $userid User id to check completion for (0 = current user).
  * @return \core_calendar\local\event\entities\action_interface|null
  */
-function mod_slideshow_core_calendar_provide_event_action(calendar_event $event,
-                                                      \core_calendar\action_factory $factory, $userid = 0) {
+function mod_slideshow_core_calendar_provide_event_action(
+    calendar_event $event,
+    \core_calendar\action_factory $factory,
+    $userid = 0
+) {
     global $USER;
 
     if (empty($userid)) {

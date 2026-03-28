@@ -85,7 +85,7 @@ define([
                 // Set width and height for the QR Code container
                 overlay.setAttribute(
                     'style',
-                    'width: ' + container.offsetWidth + 'px; height: ' + container.offsetWidth * (9/16) + 'px;'
+                    'width: ' + container.offsetWidth + 'px; height: ' + container.offsetWidth * (9 / 16) + 'px;'
                 );
 
                 // Hide overlay on click
@@ -136,7 +136,7 @@ define([
                         container.classList.remove('fullscreen');
                         fontsize.value = '150';
                     }
-                    fontsize.dispatchEvent(new Event('input', { 'bubbles': true }));
+                    fontsize.dispatchEvent(new Event('input', {bubbles: true}));
                     updateSlideDimensions();
                 });
 
@@ -230,12 +230,12 @@ define([
                     // QR Code overlay
                     overlay.setAttribute(
                         'style',
-                        'width: ' + container.offsetWidth + 'px; height: ' + container.offsetWidth * (9/16) + 'px;'
+                        'width: ' + container.offsetWidth + 'px; height: ' + container.offsetWidth * (9 / 16) + 'px;'
                     );
 
                     // Slides
                     slides.forEach(slide => {
-                        slide.setAttribute('style', 'height: ' + container.offsetWidth * (9/16) + 'px;');
+                        slide.setAttribute('style', 'height: ' + container.offsetWidth * (9 / 16) + 'px;');
                     });
                 };
 

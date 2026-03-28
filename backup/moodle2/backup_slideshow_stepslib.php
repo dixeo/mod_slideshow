@@ -26,7 +26,6 @@
  * Defines slideshow + slides + embedded files for moodle2 backup.
  */
 class backup_slideshow_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * Build the nested backup element tree for slideshow and slides.
      *

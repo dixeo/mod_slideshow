@@ -29,7 +29,7 @@ $id = required_param('id', PARAM_INT); // Course id.
 $course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 
 require_course_login($course, true);
-$PAGE->set_slideshowlayout('incourse');
+$PAGE->set_pagelayout('incourse');
 
 // Trigger instances list viewed event.
 $event = \mod_slideshow\event\course_module_instance_list_viewed::create(['context' => context_course::instance($course->id)]);
@@ -43,7 +43,7 @@ $strintro        = get_string('moduleintro');
 $strlastmodified = get_string('lastmodified');
 
 $PAGE->set_url('/mod/slideshow/index.php', ['id' => $course->id]);
-$PAGE->set_title($course->shortname.': '.$strslideshows);
+$PAGE->set_title($course->shortname . ': ' . $strslideshows);
 $PAGE->set_heading($course->fullname);
 $PAGE->navbar->add($strslideshows);
 echo $OUTPUT->header();
@@ -59,7 +59,7 @@ $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
 if ($usesections) {
-    $strsectionname = get_string('sectionname', 'format_'.$course->format);
+    $strsectionname = get_string('sectionname', 'format_' . $course->format);
     $table->head  = [$strsectionname, $strname, $strintro];
     $table->align = ['center', 'left', 'left'];
 } else {
@@ -83,7 +83,7 @@ foreach ($slideshows as $slideshow) {
             $currentsection = $slideshow->section;
         }
     } else {
-        $printsection = '<span class="smallinfo">'.userdate($slideshow->timemodified)."</span>";
+        $printsection = '<span class="smallinfo">' . userdate($slideshow->timemodified) . "</span>";
     }
 
     // Hidden modules are shown dimmed.
@@ -91,7 +91,7 @@ foreach ($slideshows as $slideshow) {
 
     $table->data[] = [
         $printsection,
-        "<a $class href=\"view.php?id=$cm->id\">".format_string($slideshow->name)."</a>",
+        "<a $class href=\"view.php?id=$cm->id\">" . format_string($slideshow->name) . "</a>",
         format_module_intro('slideshow', $slideshow, $cm->id)];
 }
 

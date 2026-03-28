@@ -50,7 +50,7 @@ require_capability('mod/slideshow:viewslides', $context);
 $PAGE->set_url('/mod/slideshow/slides.php', ['id' => $cm->id]);
 
 $PAGE->add_body_class('limitedwidth');
-$PAGE->set_title($course->shortname.': '.$slideshow->name);
+$PAGE->set_title($course->shortname . ': ' . $slideshow->name);
 $PAGE->set_heading($course->fullname);
 $PAGE->set_activity_record($slideshow);
 $PAGE->activityheader->set_attrs([

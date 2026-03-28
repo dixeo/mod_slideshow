@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/slideshow/locallib.php');
-require_once($CFG->libdir.'/filelib.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/mod/slideshow/locallib.php');
+require_once($CFG->libdir . '/filelib.php');
 
 /**
  * Settings form for adding or editing a slideshow activity instance.
@@ -36,11 +36,9 @@ class mod_slideshow_mod_form extends moodleform_mod {
      * Define form fields.
      */
     protected function definition() {
-        global $CFG, $DB;
+        global $CFG;
 
         $mform = $this->_form;
-
-        $config = get_config('slideshow');
 
         // -------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -90,4 +88,3 @@ class mod_slideshow_mod_form extends moodleform_mod {
         }
     }
 }
-

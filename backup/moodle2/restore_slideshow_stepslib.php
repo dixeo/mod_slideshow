@@ -26,7 +26,6 @@
  * Restores slideshow instance, slides, and files.
  */
 class restore_slideshow_activity_structure_step extends restore_activity_structure_step {
-
     /**
      * Declare restore path elements for the activity XML.
      *

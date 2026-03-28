@@ -30,7 +30,6 @@ require_once($CFG->dirroot . '/mod/slideshow/backup/moodle2/backup_slideshow_ste
  * Backup task implementation.
  */
 class backup_slideshow_activity_task extends backup_activity_task {
-
     /**
      * Activity-specific backup settings (none).
      */
