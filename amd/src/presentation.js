@@ -82,6 +82,118 @@ define([
                 // Edit slide button
                 let editslide = document.querySelector(Selectors.editslide);
 
+                /**
+                 * Checks if the document is currently in fullscreen mode.
+                 *
+                 * @returns {boolean} True if fullscreen mode is active, false otherwise.
+                 */
+                function isFullscreenActive() {
+                    return !!(
+                        document.fullscreenElement ||
+                        document.webkitFullscreenElement ||
+                        document.mozFullScreenElement ||
+                        document.msFullscreenElement
+                    );
+                }
+
+                /**
+                 * Requests fullscreen mode for the given element using the appropriate browser-specific API.
+                 *
+                 * @param {HTMLElement} elem - The DOM element to display in fullscreen mode.
+                 */
+                function requestFullscreenSafe(elem) {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.webkitRequestFullscreen) { // Safari and iOS
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.mozRequestFullScreen) { // Firefox
+                        elem.mozRequestFullScreen();
+                    } else if (elem.msRequestFullscreen) { // IE/Edge
+                        elem.msRequestFullscreen();
+                    } else {
+                        Notification.alert(strFsNotSupported, null, strWarning);
+                    }
+                }
+
+                /**
+                 * Exits fullscreen mode in a cross-browser compatible way.
+                 */
+                function exitFullscreenSafe() {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) { // Safari
+                        document.webkitExitFullscreen();
+                    } else if (document.mozCancelFullScreen) { // Firefox
+                        document.mozCancelFullScreen();
+                    } else if (document.msExitFullscreen) { // IE/Edge
+                        document.msExitFullscreen();
+                    } else {
+                        Notification.alert(strFsExitNotSupported, null, strWarning);
+                    }
+                }
+
+                /**
+                 * Updates the height of the slide container based on the current slide's width (16:9).
+                 */
+                function updateSlideDimensions() {
+                    overlay.setAttribute(
+                        'style',
+                        'width: ' + container.offsetWidth + 'px; height: ' + container.offsetWidth * (9 / 16) + 'px;'
+                    );
+                    slides.forEach(slide => {
+                        slide.setAttribute('style', 'height: ' + container.offsetWidth * (9 / 16) + 'px;');
+                    });
+                }
+
+                /**
+                 * Update slide counter and prev/next disabled state.
+                 */
+                function updateCurrentSlide() {
+                    currentslide.innerText = (current + 1) + '/' + total;
+                    if (current === 0) {
+                        prev.classList.add('disabled');
+                    } else {
+                        prev.classList.remove('disabled');
+                    }
+                    if (current === total - 1) {
+                        next.classList.add('disabled');
+                    } else {
+                        next.classList.remove('disabled');
+                    }
+                }
+
+                /**
+                 * Show the previous slide.
+                 */
+                function prevSlide() {
+                    if (current > 0) {
+                        slides[current].classList.add('hidden');
+                        slides[current - 1].classList.remove('hidden');
+                        current--;
+                        updateCurrentSlide();
+                    }
+                }
+
+                /**
+                 * Show the next slide.
+                 */
+                function nextSlide() {
+                    if (current < total - 1) {
+                        slides[current].classList.add('hidden');
+                        slides[current + 1].classList.remove('hidden');
+                        current++;
+                        updateCurrentSlide();
+                    }
+                }
+
+                /**
+                 * Navigate to the edit page for the current slide.
+                 */
+                function editSlide() {
+                    let slideid = slides[current].getAttribute('data-slideid');
+                    window.location.href = '/mod/slideshow/edit.php?cm=' + options.cmid + '&id=' + slideid;
+                }
+
                 // Set width and height for the QR Code container
                 overlay.setAttribute(
                     'style',
@@ -145,30 +257,10 @@ define([
                     prevSlide();
                 });
 
-                // Navigate to the previous slide
-                const prevSlide = () => {
-                    if (current > 0) {
-                        slides[current].classList.add('hidden');
-                        slides[current - 1].classList.remove('hidden');
-                        current--;
-                        updateCurrentSlide();
-                    }
-                };
-
                 // Next slide button
                 next.addEventListener('click', () => {
                     nextSlide();
                 });
-
-                // Navigate to the next slide
-                const nextSlide = () => {
-                    if (current < total - 1) {
-                        slides[current].classList.add('hidden');
-                        slides[current + 1].classList.remove('hidden');
-                        current++;
-                        updateCurrentSlide();
-                    }
-                };
 
                 // Fullscreen button
                 fullscreen.addEventListener('click', () => {
@@ -191,112 +283,21 @@ define([
                     });
                 });
 
-                // Edit slide button
-                editslide.addEventListener('click', () => {
-                    editSlide();
-                });
-
-                // Navigate to edit page for the current slide
-                const editSlide = () => {
-                    let slideid = slides[current].getAttribute('data-slideid');
-                    window.location.href = '/mod/slideshow/edit.php?cm=' + options.cmid + '&id=' + slideid;
-                };
-
-                // Set the current slide indicator
-                const updateCurrentSlide = () => {
-                    currentslide.innerText = (current + 1) + '/' + total;
-                    if (current === 0) {
-                        prev.classList.add('disabled');
-                    } else {
-                        prev.classList.remove('disabled');
-                    }
-                    if (current === total - 1) {
-                        next.classList.add('disabled');
-                    } else {
-                        next.classList.remove('disabled');
-                    }
-                };
+                // Edit slide button (only in DOM for users with mod/slideshow:viewslides).
+                if (editslide) {
+                    editslide.addEventListener('click', () => {
+                        editSlide();
+                    });
+                }
 
                 // Resize slide to keep a 16:9 aspect ratio
                 window.addEventListener('resize', () => {
                     updateSlideDimensions();
                 }, true);
 
-                /**
-                 * Updates the height of the slide container based on the current slide's width.
-                 * The height is set to maintain a 16:9 aspect ratio.
-                 */
-                const updateSlideDimensions = () => {
-                    // QR Code overlay
-                    overlay.setAttribute(
-                        'style',
-                        'width: ' + container.offsetWidth + 'px; height: ' + container.offsetWidth * (9 / 16) + 'px;'
-                    );
-
-                    // Slides
-                    slides.forEach(slide => {
-                        slide.setAttribute('style', 'height: ' + container.offsetWidth * (9 / 16) + 'px;');
-                    });
-                };
-
-                // Set inital slide dimensions
+                // Set initial slide dimensions and counter
                 updateSlideDimensions();
-
-                /**
-                 * Requests fullscreen mode for the given element using the appropriate browser-specific API.
-                 * Falls back to vendor-prefixed methods for compatibility with older browsers.
-                 * Logs a warning if the Fullscreen API is not supported.
-                 *
-                 * @param {HTMLElement} elem - The DOM element to display in fullscreen mode.
-                 */
-                const requestFullscreenSafe = (elem) => {
-                    if (elem.requestFullscreen) {
-                        elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) { // Safari and iOS
-                        elem.webkitRequestFullscreen();
-                    } else if (elem.mozRequestFullScreen) { // Firefox
-                        elem.mozRequestFullScreen();
-                    } else if (elem.msRequestFullscreen) { // IE/Edge
-                        elem.msRequestFullscreen();
-                    } else {
-                        Notification.alert(strFsNotSupported, null, strWarning);
-                    }
-                };
-
-                /**
-                 * Exits fullscreen mode in a cross-browser compatible way.
-                 * Attempts to use the appropriate method for the current browser,
-                 * and logs a warning if fullscreen exit is not supported.
-                 */
-                const exitFullscreenSafe = () => {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) { // Safari
-                        document.webkitExitFullscreen();
-                    } else if (document.mozCancelFullScreen) { // Firefox
-                        document.mozCancelFullScreen();
-                    } else if (document.msExitFullscreen) { // IE/Edge
-                        document.msExitFullscreen();
-                    } else {
-                        Notification.alert(strFsExitNotSupported, null, strWarning);
-                    }
-                };
-
-                /**
-                 * Checks if the document is currently in fullscreen mode.
-                 *
-                 * This function accounts for different browser-specific fullscreen implementations.
-                 *
-                 * @returns {boolean} True if fullscreen mode is active, false otherwise.
-                 */
-                const isFullscreenActive = () => {
-                    return !!(
-                        document.fullscreenElement ||
-                        document.webkitFullscreenElement ||
-                        document.mozFullScreenElement ||
-                        document.msFullscreenElement
-                    );
-                };
+                updateCurrentSlide();
             });
         }
     };

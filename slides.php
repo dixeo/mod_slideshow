@@ -63,10 +63,10 @@ $PAGE->requires->js_call_amd('mod_slideshow/slides', 'init', [$cm->id]);
 
 echo $OUTPUT->header();
 
-$slides = $DB->get_records('slideshow_slide', ['slideshow' => $cm->id], 'sortorder');
+$slides = $DB->get_records('slideshow_slide', ['slideshow' => $cm->instance], 'sortorder');
 
 $data = new stdClass();
-$data->slideshow = $cm->id;
+$data->cmid = $cm->id;
 $data->slides = [];
 $displayindex = 1;
 foreach ($slides as $slide) {

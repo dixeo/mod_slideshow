@@ -38,11 +38,11 @@ if (!$slide = $DB->get_record('slideshow_slide', ['id' => $slideid])) {
     throw new \moodle_exception('invalidaccessparameter');
 }
 
-if (!$cm = get_coursemodule_from_id('slideshow', $slide->slideshow)) {
+if (!$cm = get_coursemodule_from_instance('slideshow', $slide->slideshow, 0, false)) {
     throw new \moodle_exception('invalidcoursemodule');
 }
 
-$slideshow = $DB->get_record('slideshow', ['id' => $cm->instance], '*', MUST_EXIST);
+$slideshow = $DB->get_record('slideshow', ['id' => $slide->slideshow], '*', MUST_EXIST);
 
 $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 

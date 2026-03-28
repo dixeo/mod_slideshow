@@ -50,7 +50,7 @@ class backup_slideshow_activity_structure_step extends backup_activity_structure
 
         $slide->set_source_sql(
             'SELECT * FROM {slideshow_slide} WHERE slideshow = ? ORDER BY sortorder ASC, id ASC',
-            [backup::VAR_MODID]
+            [backup::VAR_ACTIVITYID]
         );
 
         $slideshow->annotate_files('mod_slideshow', 'intro', null);

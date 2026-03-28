@@ -33,7 +33,7 @@
 
     Example context (json):
     {
-        "slideshow": 1,
+        "cmid": 1,
         "slides": [
             {
                 "sortorder": 1,
@@ -47,7 +47,7 @@
 }}
 
 <div class="generalbox center clearfix">
-    <ul id="slide-list" data-cmid="{{slideshow}}" class="mt-4">
+    <ul id="slide-list" data-cmid="{{cmid}}" class="mt-4">
         {{#slides}}
             <li class="slide-item no-swipe group" data-sortorder="{{sortorder}}" data-id="{{id}}">
                 <div class="handle instant">{{index}}</div>

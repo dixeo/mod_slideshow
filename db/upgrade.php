@@ -29,6 +29,7 @@
  * @return bool
  */
 function xmldb_slideshow_upgrade($oldversion) {
+    global $DB;
 
     if ($oldversion < 2023100906) {
         require_once(__DIR__ . '/../lib.php');
@@ -39,6 +40,24 @@ function xmldb_slideshow_upgrade($oldversion) {
     if ($oldversion < 2026032811) {
         // Moodle 2 backup/restore API enabled; no schema change.
         upgrade_mod_savepoint(true, 2026032811, 'slideshow');
+    }
+
+    if ($oldversion < 2026032813) {
+        // The slideshow_slide.slideshow column must reference slideshow.id ($cm->instance), not course_modules.id.
+        $slideshowmoduleid = $DB->get_field('modules', 'id', ['name' => 'slideshow'], IGNORE_MISSING);
+        if ($slideshowmoduleid) {
+            $slides = $DB->get_records('slideshow_slide', [], 'id ASC');
+            foreach ($slides as $slide) {
+                $cm = $DB->get_record('course_modules', [
+                    'id' => $slide->slideshow,
+                    'module' => $slideshowmoduleid,
+                ], 'instance', IGNORE_MISSING);
+                if ($cm) {
+                    $DB->set_field('slideshow_slide', 'slideshow', $cm->instance, ['id' => $slide->id]);
+                }
+            }
+        }
+        upgrade_mod_savepoint(true, 2026032813, 'slideshow');
     }
 
     return true;

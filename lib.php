@@ -115,11 +115,10 @@ function slideshow_add_instance($data, $mform = null) {
     $DB->set_field('course_modules', 'instance', $data->id, ['id' => $cmid]);
     $context = context_module::instance($cmid);
 
-    // Insert slides if any.
+    // Insert slides if any (slideshow_slide.slideshow = activity instance id).
     if (!empty($data->slides) && is_array($data->slides)) {
         foreach ($data->slides as $slidedata) {
-            // Insert the slide record.
-            $slidedata['slideshow'] = $cmid;
+            $slidedata['slideshow'] = $data->id;
             $slideid = $DB->insert_record('slideshow_slide', $slidedata);
         }
     }
@@ -171,12 +170,7 @@ function slideshow_delete_instance($id) {
     $cm = get_coursemodule_from_instance('slideshow', $id, 0, false, MUST_EXIST);
     \core_completion\api::update_completion_date_event($cm->id, 'slideshow', $id, null);
 
-    // Slides key off course module id in current code; older rows may use instance id.
-    $DB->delete_records_select(
-        'slideshow_slide',
-        'slideshow = :cmid OR slideshow = :iid',
-        ['cmid' => $cm->id, 'iid' => $slideshow->id]
-    );
+    $DB->delete_records('slideshow_slide', ['slideshow' => $slideshow->id]);
 
     $DB->delete_records('slideshow', ['id' => $slideshow->id]);
 
@@ -577,15 +571,27 @@ function slideshow_upgrade_migrate_slide_content_files() {
     global $DB;
 
     $fs = get_file_storage();
+    $slideshowmoduleid = $DB->get_field('modules', 'id', ['name' => 'slideshow'], IGNORE_MISSING);
     $slides = $DB->get_recordset('slideshow_slide', null, '', 'id, slideshow, content');
     foreach ($slides as $slide) {
         if ((string) $slide->content === '') {
             continue;
         }
-        try {
-            $context = context_module::instance((int) $slide->slideshow, IGNORE_MISSING);
-        } catch (\Exception $e) {
-            continue;
+        $context = null;
+        if ($slideshowmoduleid) {
+            $cmrow = $DB->get_record('course_modules', [
+                'id' => $slide->slideshow,
+                'module' => $slideshowmoduleid,
+            ], 'id', IGNORE_MISSING);
+            if ($cmrow) {
+                $context = context_module::instance((int) $cmrow->id, IGNORE_MISSING);
+            }
+        }
+        if (!$context) {
+            $cm = get_coursemodule_from_instance('slideshow', (int) $slide->slideshow, 0, false, IGNORE_MISSING);
+            if ($cm) {
+                $context = context_module::instance($cm->id, IGNORE_MISSING);
+            }
         }
         if (!$context) {
             continue;

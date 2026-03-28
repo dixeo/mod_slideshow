@@ -67,7 +67,7 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
         $oldid = $data->id;
         unset($data->id);
 
-        $data->slideshow = $this->task->get_moduleid();
+        $data->slideshow = $this->get_new_parentid('slideshow');
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('slideshow_slide', $data);

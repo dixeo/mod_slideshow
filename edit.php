@@ -30,10 +30,12 @@ $cmid = required_param('cm', PARAM_INT);
 $slideid = optional_param('id', 0, PARAM_INT);
 
 $pluginmanager = \core_plugin_manager::instance();
-$localcontenteditor = $pluginmanager->get_plugin_info('local_dixeo_editor');
+$localcontenteditor = $pluginmanager->get_plugin_info('local_edai_course_editor');
+// Future Dixeo editor migration: also resolve local_dixeo_editor via the plugin manager when replacing Edai.
 if ($slideid && $localcontenteditor) {
     // Plugin is available, you can use it.
-    redirect(new moodle_url('/local/dixeo_editor/content_edition.php', ['cmid' => $cmid, 'slideid' => $slideid]));
+    // Future Dixeo editor migration: redirect to local/dixeo_editor/content_edition.php with cmid and itemid (slide id).
+    redirect(new moodle_url('/local/edai_course_editor/content_edition.php', ['cmid' => $cmid, 'slideid' => $slideid]));
 }
 
 // Check the course module exists.
@@ -53,7 +55,10 @@ $editoroptions = slideshow_get_editor_options($context);
 
 $slide = new stdClass();
 if ($slideid) {
-    $record = $DB->get_record('slideshow_slide', ['id' => $slideid], '*', MUST_EXIST);
+    $record = $DB->get_record('slideshow_slide', [
+        'id' => $slideid,
+        'slideshow' => $cm->instance,
+    ], '*', MUST_EXIST);
     $slide = file_prepare_standard_editor($record, 'content', $editoroptions, $context, 'mod_slideshow', 'content', (int) $slideid);
 } else {
     $slide->content = '';
@@ -82,7 +87,7 @@ if ($mform->is_cancelled()) {
     if (!empty($fromform->id)) {
         $DB->update_record('slideshow_slide', $fromform);
     } else {
-        $fromform->sortorder = $DB->count_records('slideshow_slide', ['slideshow' => $cm->id]) + 1;
+        $fromform->sortorder = $DB->count_records('slideshow_slide', ['slideshow' => $cm->instance]) + 1;
         $fromform->id = $DB->insert_record('slideshow_slide', $fromform);
     }
 

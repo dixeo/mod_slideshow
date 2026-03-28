@@ -59,7 +59,7 @@ $PAGE->set_title($course->shortname . ': ' . $slideshow->name);
 $PAGE->set_heading($course->fullname);
 $PAGE->set_activity_record($slideshow);
 
-$slides = $DB->get_records('slideshow_slide', ['slideshow' => $cm->id, 'hidden' => 0], 'sortorder');
+$slides = $DB->get_records('slideshow_slide', ['slideshow' => $cm->instance, 'hidden' => 0], 'sortorder');
 
 if ($slides) {
     $jsparams = ['cmid' => $cm->id];
