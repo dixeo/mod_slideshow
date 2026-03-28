@@ -28,8 +28,14 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 require_once($CFG->dirroot.'/mod/slideshow/locallib.php');
 require_once($CFG->libdir.'/filelib.php');
 
+/**
+ * Form used when creating or editing one slideshow slide.
+ */
 class mod_slideshow_slide_edit_form extends moodleform {
-    function definition() {
+    /**
+     * Define form fields.
+     */
+    protected function definition() {
         global $CFG, $DB;
 
         $mform = $this->_form;
@@ -38,7 +44,7 @@ class mod_slideshow_slide_edit_form extends moodleform {
         $cm = $customdata['cm'];
 
         $mform->addElement('header', 'contentsection', get_string('contentheader', 'slideshow'));
-        $mform->addElement('text', 'name', get_string('name'), array('size'=>'48'));
+        $mform->addElement('text', 'name', get_string('name'), ['size' => '48']);
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -47,7 +53,13 @@ class mod_slideshow_slide_edit_form extends moodleform {
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
-        $mform->addElement('editor', 'content_editor', get_string('content', 'slideshow'), null, slideshow_get_editor_options($context));
+        $mform->addElement(
+            'editor',
+            'content_editor',
+            get_string('content', 'slideshow'),
+            null,
+            slideshow_get_editor_options($context)
+        );
         $mform->addRule('content_editor', get_string('required'), 'required', null, 'client');
 
         $this->add_action_buttons();

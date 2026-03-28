@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -17,57 +16,51 @@
 
 /**
  * Strings for component 'slideshow', language 'en',
- * 
+ *
  * @package    mod_slideshow
  * @copyright  2024 Josemaria Bolanos <admin@mako.digital>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-$string['pluginname'] = 'Presentación de diapositivas';
-$string['modulename'] = 'Presentación de diapositivas';
-$string['modulenameplural'] = 'Presentaciones de diapositivas';
-$string['modulename_help'] = 'El módulo de presentación de diapositivas permite a un profesor crear una presentación web utilizando el editor de texto. Cada diapositiva puede mostrar texto, imágenes, sonido, video, enlaces web y código incrustado, como mapas de Google.';
-$string['slideshow:view'] = 'Ver contenido de la presentación';
-$string['slideshow:addinstance'] = 'Agregar nueva presentación de diapositivas';
-$string['slideshow:viewslides'] = 'Ver diapositivas';
-
-$string['privacy:metadata'] = 'El plugin de presentación de diapositivas no almacena ningún dato personal.';
+$string['addnew'] = 'Agregar nueva diapositiva';
+$string['confirm'] = 'Eliminar';
 $string['content'] = 'Contenido de la diapositiva';
-$string['slides'] = 'Diapositivas';
-
-
 $string['contentheader'] = 'Contenido';
 $string['createslideshow'] = 'Crear nueva presentación de diapositivas';
-
+$string['decrease'] = 'Hacer el texto más pequeño';
+$string['delete'] = 'Eliminar diapositiva';
+$string['deleteconfirm'] = '¿Está seguro que desea eliminar esta diapositiva?';
+$string['edit'] = 'Editar diapositiva';
+$string['fullscreen'] = 'Pantalla completa';
+$string['hide'] = 'Ocultar diapositiva';
+$string['increase'] = 'Hacer el texto más grande';
+$string['modulename'] = 'Presentación de diapositivas';
+$string['modulename_help'] = 'El módulo de presentación de diapositivas permite a un profesor crear una presentación web utilizando el editor de texto. Cada diapositiva puede mostrar texto, imágenes, sonido, video, enlaces web y código incrustado, como mapas de Google.';
 $string['modulename_link'] = 'mod/slideshow/view';
+$string['modulenameplural'] = 'Presentaciones de diapositivas';
+$string['next'] = 'Siguiente diapositiva';
+$string['noslides'] = 'Esta presentación de diapositivas está vacía.';
+$string['noslides_teacherhint'] = 'Añada una nueva diapositiva para mostrar contenido aquí.';
 $string['pluginadministration'] = 'Administración del módulo de presentación de diapositivas';
+$string['pluginname'] = 'Presentación de diapositivas';
 $string['popupheight'] = 'Altura de la ventana emergente (en píxeles)';
 $string['popupheightexplain'] = 'Especifica la altura predeterminada de las ventanas emergentes.';
 $string['popupwidth'] = 'Ancho de la ventana emergente (en píxeles)';
 $string['popupwidthexplain'] = 'Especifica el ancho predeterminado de las ventanas emergentes.';
+$string['prev'] = 'Diapositiva anterior';
 $string['printintro'] = 'Mostrar descripción de la presentación de diapositivas';
 $string['printintroexplain'] = '¿Mostrar descripción de la presentación de diapositivas encima del contenido?';
 $string['printlastmodified'] = 'Mostrar fecha de última modificación';
 $string['printlastmodifiedexplain'] = '¿Mostrar fecha de última modificación debajo del contenido?';
-$string['search:activity'] = 'Presentación de diapositivas';
-
-$string['start'] = 'Iniciar presentación';
-$string['scantoenrol'] = 'Escanear para inscribirse';
+$string['privacy:metadata'] = 'El plugin de presentación de diapositivas no almacena ningún dato personal.';
 $string['qrcode'] = 'Mostrar código QR de inscripción';
-$string['watermark'] = 'Desarrollado por Dixeo';
-$string['addnew'] = 'Agregar nueva diapositiva';
-$string['prev'] = 'Diapositiva anterior';
-$string['next'] = 'Siguiente diapositiva';
-$string['decrease'] = 'Hacer el texto más pequeño';
-$string['increase'] = 'Hacer el texto más grande';
-$string['fullscreen'] = 'Pantalla completa';
-$string['edit'] = 'Editar diapositiva';
 $string['reorder'] = 'Reordenar diapositiva';
-$string['noslides'] = 'Esta presentación de diapositivas está vacía.';
-$string['noslides_teacherhint'] = 'Añada una nueva diapositiva para mostrar contenido aquí.';
-$string['hide'] = 'Ocultar diapositiva';
+$string['scantoenrol'] = 'Escanear para inscribirse';
+$string['search:activity'] = 'Presentación de diapositivas';
 $string['show'] = 'Mostrar diapositiva';
-$string['delete'] = 'Eliminar diapositiva';
-$string['deleteconfirm'] = '¿Está seguro que desea eliminar esta diapositiva?';
-$string['confirm'] = 'Eliminar';
 $string['slide_saved'] = 'Diapositiva guardada';
+$string['slides'] = 'Diapositivas';
+$string['slideshow:addinstance'] = 'Agregar nueva presentación de diapositivas';
+$string['slideshow:view'] = 'Ver contenido de la presentación';
+$string['slideshow:viewslides'] = 'Ver diapositivas';
+$string['start'] = 'Iniciar presentación';
+$string['watermark'] = 'Desarrollado por Dixeo';

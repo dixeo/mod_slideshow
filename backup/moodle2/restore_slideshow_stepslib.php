@@ -22,14 +22,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Restores slideshow instance, slides, and files.
  */
 class restore_slideshow_activity_structure_step extends restore_activity_structure_step {
 
     /**
+     * Declare restore path elements for the activity XML.
+     *
      * @return array
      */
     protected function define_structure() {
@@ -41,7 +41,9 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
     }
 
     /**
-     * @param array $data
+     * Insert the restored slideshow activity row.
+     *
+     * @param array $data Parsed XML fields.
      */
     protected function process_slideshow($data) {
         global $DB;
@@ -55,7 +57,9 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
     }
 
     /**
-     * @param array $data
+     * Insert one slide row and register id mapping.
+     *
+     * @param array $data Parsed XML fields.
      */
     protected function process_slideshow_slide($data) {
         global $DB;
@@ -71,6 +75,9 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
         $this->set_mapping('slideshow_slide', $oldid, $newitemid, true);
     }
 
+    /**
+     * Attach intro and slide content files after restore.
+     */
     protected function after_execute() {
         $this->add_related_files('mod_slideshow', 'intro', null);
         $this->add_related_files('mod_slideshow', 'content', 'slideshow_slide');

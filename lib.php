@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Library functions and callbacks for mod_slideshow.
+ *
  * @package    mod_slideshow
  * @copyright  2024 Josemaria Bolanos <admin@mako.digital>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
 
 /**
  * List of features supported in Slideshow module
@@ -29,19 +28,29 @@ defined('MOODLE_INTERNAL') || die;
  * @return mixed True if module supports feature, false if not, null if doesn't know or string for the module purpose.
  */
 function slideshow_supports($feature) {
-    switch($feature) {
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_MOD_INTRO:               return true;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
-        case FEATURE_GRADE_HAS_GRADE:         return false;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_SHOW_DESCRIPTION:        return true;
-        case FEATURE_MOD_PURPOSE:             return MOD_PURPOSE_CONTENT;
-
-        default: return null;
+    switch ($feature) {
+        case FEATURE_MOD_ARCHETYPE:
+            return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return true;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_SHOW_DESCRIPTION:
+            return true;
+        case FEATURE_MOD_PURPOSE:
+            return MOD_PURPOSE_CONTENT;
+        default:
+            return null;
     }
 }
 
@@ -56,7 +65,7 @@ function slideshow_reset_userdata($data) {
     // Any changes to the list of dates that needs to be rolled should be same during course restore and course reset.
     // See MDL-9367.
 
-    return array();
+    return [];
 }
 
 /**
@@ -70,7 +79,7 @@ function slideshow_reset_userdata($data) {
  * @return array
  */
 function slideshow_get_view_actions() {
-    return array('view','view all');
+    return ['view', 'view all'];
 }
 
 /**
@@ -84,7 +93,7 @@ function slideshow_get_view_actions() {
  * @return array
  */
 function slideshow_get_post_actions() {
-    return array('update', 'add');
+    return ['update', 'add'];
 }
 
 /**
@@ -102,8 +111,8 @@ function slideshow_add_instance($data, $mform = null) {
 
     $data->id = $DB->insert_record('slideshow', $data);
 
-    // we need to use context now, so we need to make sure all needed info is already in db
-    $DB->set_field('course_modules', 'instance', $data->id, array('id'=>$cmid));
+    // We need context now, so ensure instance and course_modules rows exist first.
+    $DB->set_field('course_modules', 'instance', $data->id, ['id' => $cmid]);
     $context = context_module::instance($cmid);
 
     // Insert slides if any.
@@ -155,7 +164,7 @@ function slideshow_update_instance($data, $mform) {
 function slideshow_delete_instance($id) {
     global $DB;
 
-    if (!$slideshow = $DB->get_record('slideshow', array('id'=>$id))) {
+    if (!$slideshow = $DB->get_record('slideshow', ['id' => $id])) {
         return false;
     }
 
@@ -169,7 +178,7 @@ function slideshow_delete_instance($id) {
         ['cmid' => $cm->id, 'iid' => $slideshow->id]
     );
 
-    $DB->delete_records('slideshow', array('id' => $slideshow->id));
+    $DB->delete_records('slideshow', ['id' => $slideshow->id]);
 
     return true;
 }
@@ -188,9 +197,9 @@ function slideshow_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
-    if (!$slideshow = $DB->get_record('slideshow', array('id'=>$coursemodule->instance),
+    if (!$slideshow = $DB->get_record('slideshow', ['id' => $coursemodule->instance],
             'id, name, display, displayoptions, intro, introformat')) {
-        return NULL;
+        return null;
     }
 
     $info = new cached_cm_info();
@@ -207,9 +216,10 @@ function slideshow_get_coursemodule_info($coursemodule) {
 
     $fullurl = "$CFG->wwwroot/mod/slideshow/view.php?id=$coursemodule->id&amp;inpopup=1";
     $options = empty($slideshow->displayoptions) ? [] : (array) unserialize_array($slideshow->displayoptions);
-    $width  = empty($options['popupwidth'])  ? 620 : $options['popupwidth'];
+    $width  = empty($options['popupwidth']) ? 620 : $options['popupwidth'];
     $height = empty($options['popupheight']) ? 450 : $options['popupheight'];
-    $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes";
+    $wh = "width=$width,height=$height,toolbar=no,location=no,menubar=no,copyhistory=no,"
+        . "status=no,directories=no,scrollbars=yes,resizable=yes";
     $info->onclick = "window.open('$fullurl', '', '$wh'); return false;";
 
     return $info;
@@ -227,7 +237,7 @@ function slideshow_get_coursemodule_info($coursemodule) {
  * @return array
  */
 function slideshow_get_file_areas($course, $cm, $context) {
-    $areas = array();
+    $areas = [];
     $areas['content'] = get_string('content', 'slideshow');
     return $areas;
 }
@@ -252,7 +262,7 @@ function slideshow_get_file_info($browser, $areas, $course, $cm, $context, $file
     global $CFG;
 
     if (!has_capability('moodle/course:managefiles', $context)) {
-        // students can not peak here!
+        // Students cannot browse files here without capability.
         return null;
     }
 
@@ -265,18 +275,28 @@ function slideshow_get_file_info($browser, $areas, $course, $cm, $context, $file
 
         $urlbase = $CFG->wwwroot.'/pluginfile.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_slideshow', 'content', $itemid, $filepath, $filename)) {
-            if ($filepath === '/' and $filename === '.') {
+            if ($filepath === '/' && $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_slideshow', 'content', $itemid);
             } else {
-                // not found
+                // File not found.
                 return null;
             }
         }
         require_once("$CFG->dirroot/mod/slideshow/locallib.php");
-        return new slideshow_content_file_info($browser, $context, $storedfile, $urlbase, $areas[$filearea], true, true, true, false);
+        return new slideshow_content_file_info(
+            $browser,
+            $context,
+            $storedfile,
+            $urlbase,
+            $areas[$filearea],
+            true,
+            true,
+            true,
+            false
+        );
     }
 
-    // note: slideshow_intro handled in file_browser automatically
+    // Note: intro area is handled automatically in the file browser.
 
     return null;
 }
@@ -295,7 +315,7 @@ function slideshow_get_file_info($browser, $areas, $course, $cm, $context, $file
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function slideshow_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function slideshow_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=[]) {
     global $CFG, $DB;
     require_once("$CFG->libdir/resourcelib.php");
 
@@ -344,8 +364,8 @@ function slideshow_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
  * @param stdClass $currentcontext Current context of block
  */
 function slideshow_slideshow_type_list($slideshowtype, $parentcontext, $currentcontext) {
-    $module_slideshowtype = array('mod-slideshow-*'=>get_string('slideshow-mod-slideshow-x', 'slideshow'));
-    return $module_slideshowtype;
+    $moduleslideshowtype = ['mod-slideshow-*' => get_string('slideshow-mod-slideshow-x', 'slideshow')];
+    return $moduleslideshowtype;
 }
 
 /**
@@ -357,19 +377,19 @@ function slideshow_slideshow_type_list($slideshowtype, $parentcontext, $currentc
  */
 function slideshow_export_contents($cm, $baseurl) {
     global $CFG, $DB;
-    $contents = array();
+    $contents = [];
     $context = context_module::instance($cm->id);
 
-    $slideshow = $DB->get_record('slideshow', array('id'=>$cm->instance), '*', MUST_EXIST);
+    $slideshow = $DB->get_record('slideshow', ['id' => $cm->instance], '*', MUST_EXIST);
 
-    // slideshow contents
+    // Slideshow slide files from storage.
     $fs = get_file_storage();
     $files = $fs->get_area_files($context->id, 'mod_slideshow', 'content', false, 'itemid, filepath, filename', false);
     foreach ($files as $fileinfo) {
         if ($fileinfo->is_directory()) {
             continue;
         }
-        $file = array();
+        $file = [];
         $file['type']         = 'file';
         $file['filename']     = $fileinfo->get_filename();
         $file['filepath']     = $fileinfo->get_filepath();
@@ -391,17 +411,21 @@ function slideshow_export_contents($cm, $baseurl) {
         $contents[] = $file;
     }
 
-    // slideshow html conent
+    // Synthetic index.html entry for packaged export.
     $filename = 'index.html';
-    $slideshowfile = array();
+    $slideshowfile = [];
     $slideshowfile['type']         = 'file';
     $slideshowfile['filename']     = $filename;
     $slideshowfile['filepath']     = '/';
     $slideshowfile['filesize']     = 0;
-    $slideshowfile['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl, '/'.$context->id.'/mod_slideshow/content/' . $filename, true);
+    $slideshowfile['fileurl'] = file_encode_url(
+        "$CFG->wwwroot/" . $baseurl,
+        '/' . $context->id . '/mod_slideshow/content/' . $filename,
+        true
+    );
     $slideshowfile['timecreated']  = null;
     $slideshowfile['timemodified'] = $slideshow->timemodified;
-    // make this file as main file
+    // Mark this row as the main file in the export list.
     $slideshowfile['sortorder']    = 1;
     $slideshowfile['userid']       = null;
     $slideshowfile['author']       = null;
@@ -416,10 +440,10 @@ function slideshow_export_contents($cm, $baseurl) {
  * @return array containing details of the files / types the mod can handle
  */
 function slideshow_dndupload_register() {
-    return array('types' => array(
-                     array('identifier' => 'text/html', 'message' => get_string('createslideshow', 'slideshow')),
-                     array('identifier' => 'text', 'message' => get_string('createslideshow', 'slideshow'))
-                 ));
+    return ['types' => [
+                     ['identifier' => 'text/html', 'message' => get_string('createslideshow', 'slideshow')],
+                     ['identifier' => 'text', 'message' => get_string('createslideshow', 'slideshow')],
+                 ]];
 }
 
 /**
@@ -466,10 +490,10 @@ function slideshow_dndupload_handle($uploadinfo) {
 function slideshow_view($slideshow, $course, $cm, $context) {
 
     // Trigger course_module_viewed event.
-    $params = array(
+    $params = [
         'context' => $context,
-        'objectid' => $slideshow->id
-    );
+        'objectid' => $slideshow->id,
+    ];
 
     $event = \mod_slideshow\event\course_module_viewed::create($params);
     $event->add_record_snapshot('course_modules', $cm);
@@ -491,8 +515,8 @@ function slideshow_view($slideshow, $course, $cm, $context) {
  * @return stdClass an object with the different type of areas indicating if they were updated or not
  * @since Moodle 3.2
  */
-function slideshow_check_updates_since(cm_info $cm, $from, $filter = array()) {
-    $updates = course_check_module_updates_since($cm, $from, array('content'), $filter);
+function slideshow_check_updates_since(cm_info $cm, $from, $filter = []) {
+    $updates = course_check_module_updates_since($cm, $from, ['content'], $filter);
     return $updates;
 }
 
@@ -609,7 +633,7 @@ function slideshow_upgrade_migrate_slide_content_files() {
  * @param  array  $args The path (the part after the filearea and before the filename).
  * @return array The itemid and the filepath inside the $args path, for the defined filearea.
  */
-function mod_slideshow_get_path_from_pluginfile(string $filearea, array $args) : array {
+function mod_slideshow_get_path_from_pluginfile(string $filearea, array $args): array {
     if (empty($args)) {
         return [
             'itemid' => 0,
@@ -642,8 +666,14 @@ function slideshow_extend_settings_navigation(settings_navigation $settings, nav
     }
 }
 
+/**
+ * Add play or edit icons to the context header on slideshow pages.
+ *
+ * @param \moodle_page $page Current page.
+ * @return string HTML fragment.
+ */
 function slideshow_add_button_to_context_header($page) {
-    global $SERVER, $OUTPUT;
+    global $OUTPUT;
 
     $target = '/mod/slideshow/slides.php';
     $icons = '';
@@ -652,12 +682,12 @@ function slideshow_add_button_to_context_header($page) {
         return $icons;
     }
 
-    // Check if page is /mod/slideshow/slides.php
+    // Detect slide management page to show play instead of edit.
     $url = $_SERVER['PHP_SELF'];
     if (str_contains($url, $target)) {
         if (has_capability('mod/slideshow:view', $page->cm->context)) {
             $playstring = get_string('start', 'slideshow');
-            $playurl = new moodle_url('/mod/slideshow/view.php', array('id' => $page->cm->id));
+            $playurl = new moodle_url('/mod/slideshow/view.php', ['id' => $page->cm->id]);
             $playicon = $OUTPUT->pix_icon('t/go', $playstring, 'core', ['class' => 'icon']);
             $icons .= html_writer::link(
                 $playurl,
@@ -665,7 +695,7 @@ function slideshow_add_button_to_context_header($page) {
                 [
                     'style' => 'padding: 10px 12px;',
                     'class' => 'btn btn-secondary play-button',
-                    'title' => $playstring
+                    'title' => $playstring,
                 ]
             );
         }
@@ -675,7 +705,7 @@ function slideshow_add_button_to_context_header($page) {
 
     if (has_capability('mod/slideshow:viewslides', $page->cm->context)) {
         $editstring = get_string('slides', 'slideshow');
-        $editurl = new moodle_url($target, array('id' => $page->cm->id));
+        $editurl = new moodle_url($target, ['id' => $page->cm->id]);
         $editimage = $OUTPUT->image_url('monologo', 'slideshow');
         $editicon = html_writer::img(
             $editimage,
@@ -683,7 +713,7 @@ function slideshow_add_button_to_context_header($page) {
             [
                 'class' => 'icon',
                 'alt' => $editstring,
-                'style' => 'height: 26px; width: auto; margin: 0;'
+                'style' => 'height: 26px; width: auto; margin: 0;',
             ]
         );
         $icons .= html_writer::link(
@@ -692,7 +722,7 @@ function slideshow_add_button_to_context_header($page) {
             [
                 'style' => 'padding: 8px 10px;',
                 'class' => 'btn btn-secondary edit-button',
-                'title' => $editstring
+                'title' => $editstring,
             ]
         );
     }
@@ -700,8 +730,14 @@ function slideshow_add_button_to_context_header($page) {
     return $icons;
 }
 
+/**
+ * Add play or edit actions to the activity navigation menu.
+ *
+ * @param \moodle_page $page Current page.
+ * @return array List of action link data for the activity menu.
+ */
 function slideshow_add_button_to_activity_menu($page) {
-    global $SERVER, $OUTPUT;
+    global $OUTPUT;
 
     $actions = [];
 
@@ -714,15 +750,15 @@ function slideshow_add_button_to_activity_menu($page) {
 
     $context = $page->cm->context;
 
-    // Check if page is /mod/slideshow/slides.php
+    // Detect slide management page to offer play in the activity menu.
     if (str_contains($currentpath, $target)) {
         if (has_capability('mod/slideshow:view', $context)) {
             $text = get_string('start', 'slideshow');
 
             $actions[] = [
-                'url' => new moodle_url('/mod/slideshow/view.php', array('id' => $page->cm->id)),
+                'url' => new moodle_url('/mod/slideshow/view.php', ['id' => $page->cm->id]),
                 'icon' => $OUTPUT->pix_icon('t/go', $text, 'core', ['class' => 'icon']),
-                'params' => ['class' => 'btn btn-secondary play-button', 'title' => $text, 'style' => 'padding: 12px 13px;']
+                'params' => ['class' => 'btn btn-secondary play-button', 'title' => $text, 'style' => 'padding: 12px 13px;'],
             ];
         }
     } else if (has_capability('mod/slideshow:viewslides', $context)) {
@@ -735,14 +771,14 @@ function slideshow_add_button_to_activity_menu($page) {
             [
                 'class' => 'icon',
                 'alt' => $text,
-                'style' => 'height: 26px; width: auto; margin: 0;'
+                'style' => 'height: 26px; width: auto; margin: 0;',
             ]
         );
 
         $actions[] = [
-            'url' => new moodle_url($target, array('id' => $page->cm->id)),
+            'url' => new moodle_url($target, ['id' => $page->cm->id]),
             'icon' => $icon,
-            'params' => ['class' => 'btn btn-secondary edit-button', 'title' => $text, 'style' => 'padding: 10px 12px;']
+            'params' => ['class' => 'btn btn-secondary edit-button', 'title' => $text, 'style' => 'padding: 10px 12px;'],
         ];
     }
 

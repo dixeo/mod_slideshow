@@ -23,7 +23,6 @@
  */
 
 namespace mod_slideshow\event;
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * The mod_slideshow instance list viewed event class.

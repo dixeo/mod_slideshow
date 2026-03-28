@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,51 +21,46 @@
  * @copyright  2024 Josemaria Bolanos <admin@mako.digital>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-$string['pluginname'] = 'Apresentação de diapositivos';
-$string['modulename'] = 'Apresentação de diapositivos';
-$string['modulenameplural'] = 'Apresentações de diapositivos';
-$string['modulename_help'] = 'O módulo de apresentação de diapositivos permite ao formador criar um recurso de apresentação web utilizando o editor de texto. Cada diapositivo pode mostrar texto, imagens, som, vídeo, ligações web e código incorporado, como mapas do Google.';
-$string['slideshow:view'] = 'Ver conteúdo da apresentação';
-$string['slideshow:addinstance'] = 'Adicionar nova apresentação de diapositivos';
-$string['slideshow:viewslides'] = 'Ver diapositivos';
-
-$string['privacy:metadata'] = 'O plugin de recurso de apresentação de diapositivos não armazena dados pessoais.';
+$string['addnew'] = 'Adicionar novo diapositivo';
+$string['confirm'] = 'Eliminar';
 $string['content'] = 'Conteúdo do diapositivo';
-$string['slides'] = 'Diapositivos';
-
 $string['contentheader'] = 'Conteúdo';
 $string['createslideshow'] = 'Criar nova apresentação de diapositivos';
-
+$string['decrease'] = 'Diminuir texto';
+$string['delete'] = 'Eliminar diapositivo';
+$string['deleteconfirm'] = 'Tem a certeza de que deseja eliminar este diapositivo?';
+$string['edit'] = 'Editar diapositivo';
+$string['fullscreen'] = 'Ecrã inteiro';
+$string['hide'] = 'Ocultar diapositivo';
+$string['increase'] = 'Aumentar texto';
+$string['modulename'] = 'Apresentação de diapositivos';
+$string['modulename_help'] = 'O módulo de apresentação de diapositivos permite ao formador criar um recurso de apresentação web utilizando o editor de texto. Cada diapositivo pode mostrar texto, imagens, som, vídeo, ligações web e código incorporado, como mapas do Google.';
 $string['modulename_link'] = 'mod/slideshow/view';
+$string['modulenameplural'] = 'Apresentações de diapositivos';
+$string['next'] = 'Diapositivo seguinte';
+$string['noslides'] = 'Esta apresentação está vazia.';
+$string['noslides_teacherhint'] = 'Adicione um novo slide para mostrar conteúdo aqui.';
 $string['pluginadministration'] = 'Administração do módulo de apresentação';
+$string['pluginname'] = 'Apresentação de diapositivos';
 $string['popupheight'] = 'Altura do pop-up (em pixels)';
 $string['popupheightexplain'] = 'Especifica a altura predefinida das janelas pop-up.';
 $string['popupwidth'] = 'Largura do pop-up (em pixels)';
 $string['popupwidthexplain'] = 'Especifica a largura predefinida das janelas pop-up.';
+$string['prev'] = 'Diapositivo anterior';
 $string['printintro'] = 'Mostrar descrição da apresentação';
 $string['printintroexplain'] = 'Mostrar descrição da apresentação acima do conteúdo?';
 $string['printlastmodified'] = 'Mostrar data da última alteração';
 $string['printlastmodifiedexplain'] = 'Mostrar data da última alteração abaixo do conteúdo?';
-$string['search:activity'] = 'Apresentação de diapositivos';
-
-$string['start'] = 'Iniciar apresentação';
-$string['scantoenrol'] = 'Digitalizar para inscrever';
+$string['privacy:metadata'] = 'O plugin de recurso de apresentação de diapositivos não armazena dados pessoais.';
 $string['qrcode'] = 'Mostrar código QR de inscrição';
-$string['watermark'] = 'Desenvolvido por Dixeo';
-$string['addnew'] = 'Adicionar novo diapositivo';
-$string['prev'] = 'Diapositivo anterior';
-$string['next'] = 'Diapositivo seguinte';
-$string['decrease'] = 'Diminuir texto';
-$string['increase'] = 'Aumentar texto';
-$string['fullscreen'] = 'Ecrã inteiro';
-$string['edit'] = 'Editar diapositivo';
 $string['reorder'] = 'Reordenar diapositivo';
-$string['noslides'] = 'Esta apresentação está vazia.';
-$string['noslides_teacherhint'] = 'Adicione um novo slide para mostrar conteúdo aqui.';
-$string['hide'] = 'Ocultar diapositivo';
+$string['scantoenrol'] = 'Digitalizar para inscrever';
+$string['search:activity'] = 'Apresentação de diapositivos';
 $string['show'] = 'Mostrar diapositivo';
-$string['delete'] = 'Eliminar diapositivo';
-$string['deleteconfirm'] = 'Tem a certeza de que deseja eliminar este diapositivo?';
-$string['confirm'] = 'Eliminar';
 $string['slide_saved'] = 'Diapositivo guardado';
+$string['slides'] = 'Diapositivos';
+$string['slideshow:addinstance'] = 'Adicionar nova apresentação de diapositivos';
+$string['slideshow:view'] = 'Ver conteúdo da apresentação';
+$string['slideshow:viewslides'] = 'Ver diapositivos';
+$string['start'] = 'Iniciar apresentação';
+$string['watermark'] = 'Desenvolvido por Dixeo';

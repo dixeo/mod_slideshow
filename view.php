@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Slideshow module version information
+ * Learner-facing slideshow player page.
  *
  * @package    mod_slideshow
  * @copyright  2024 Josemaria Bolanos <admin@mako.digital>
@@ -28,12 +27,12 @@ require_once($CFG->dirroot.'/mod/slideshow/lib.php');
 require_once($CFG->dirroot.'/mod/slideshow/locallib.php');
 require_once($CFG->libdir.'/completionlib.php');
 
-$id      = optional_param('id', 0, PARAM_INT); // Course Module ID
-$p       = optional_param('p', 0, PARAM_INT);  // Slideshow instance ID
+$id      = optional_param('id', 0, PARAM_INT); // Course module id.
+$p       = optional_param('p', 0, PARAM_INT);  // Slideshow instance id.
 $inpopup = optional_param('inpopup', 0, PARAM_BOOL);
 
 if ($p) {
-    if (!$slideshow = $DB->get_record('slideshow', array('id'=>$p))) {
+    if (!$slideshow = $DB->get_record('slideshow', ['id' => $p])) {
         throw new \moodle_exception('invalidaccessparameter');
     }
     $cm = get_coursemodule_from_instance('slideshow', $slideshow->id, $slideshow->course, false, MUST_EXIST);
@@ -42,10 +41,10 @@ if ($p) {
     if (!$cm = get_coursemodule_from_id('slideshow', $id)) {
         throw new \moodle_exception('invalidcoursemodule');
     }
-    $slideshow = $DB->get_record('slideshow', array('id'=>$cm->instance), '*', MUST_EXIST);
+    $slideshow = $DB->get_record('slideshow', ['id' => $cm->instance], '*', MUST_EXIST);
 }
 
-$course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 
 require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
@@ -54,22 +53,25 @@ require_capability('mod/slideshow:view', $context);
 // Completion and trigger events.
 slideshow_view($slideshow, $course, $cm, $context);
 
-$PAGE->set_url('/mod/slideshow/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/slideshow/view.php', ['id' => $cm->id]);
 
 $PAGE->add_body_class('limitedwidth');
 $PAGE->set_title($course->shortname.': '.$slideshow->name);
 $PAGE->set_heading($course->fullname);
 $PAGE->set_activity_record($slideshow);
 
-$slides = $DB->get_records('slideshow_slide', array('slideshow' => $cm->id, 'hidden' => 0), 'sortorder');
+$slides = $DB->get_records('slideshow_slide', ['slideshow' => $cm->id, 'hidden' => 0], 'sortorder');
 
 if ($slides) {
     $jsparams = ['cmid' => $cm->id];
 
     // RequireJS path so presentation loads QR from this plugin (standalone, no local/whatsapp).
-    $PAGE->requires->js_amd_inline(
-        'require.config(' . json_encode(['paths' => ['mod_slideshow/qrcode' => $CFG->wwwroot . '/mod/slideshow/js/qrcode-wrapper']]) . ')'
-    );
+    $qrpathconfig = [
+        'paths' => [
+            'mod_slideshow/qrcode' => $CFG->wwwroot . '/mod/slideshow/js/qrcode-wrapper',
+        ],
+    ];
+    $PAGE->requires->js_amd_inline('require.config(' . json_encode($qrpathconfig) . ')');
 
     // Get sharecourse link.
     if (class_exists('\local_sharecourse\sharecourse_helper')) {
@@ -86,45 +88,52 @@ echo $OUTPUT->header();
 $slideshtml = '';
 
 if ($slides) {
-    // Overlay for QR Code
+    // Overlay for enrolment QR code.
     $scantoenrol = html_writer::div(get_string('scantoenrol', 'slideshow'), 'scantoenrol');
     $slideshtml .= html_writer::div($scantoenrol, 'overlay hidden');
 
-    // Prepare each slide
+    // Prepare each slide.
     $firstslide = true;
     foreach ($slides as $slide) {
-        $content = file_rewrite_pluginfile_urls($slide->content, 'pluginfile.php', $context->id, 'mod_slideshow', 'content', $slide->id);
+        $content = file_rewrite_pluginfile_urls(
+            $slide->content,
+            'pluginfile.php',
+            $context->id,
+            'mod_slideshow',
+            'content',
+            $slide->id
+        );
         $formatoptions = new stdClass;
         $formatoptions->noclean = true;
         $formatoptions->overflowdiv = true;
         $formatoptions->context = $context;
         $content = format_text($content, $slide->contentformat, $formatoptions);
-    
+
         $classes = 'slide no-overflow';
         if (!$firstslide) {
             $classes .= ' hidden';
         }
         $firstslide = false;
-    
+
         $slideshtml .= html_writer::div($content, $classes, ['data-slideid' => $slide->id]);
     }
 
-    // Dixeo logo watermark
+    // Dixeo logo watermark.
     $logourl = $OUTPUT->image_url('dixeo', 'slideshow');
     $watermark = html_writer::img($logourl, get_string('watermark', 'slideshow'), ['class' => 'watermark']);
     $slideshtml .= html_writer::div($watermark, 'watermark');
-    
-    // Navigation buttons
+
+    // Navigation buttons.
     $previcon = $OUTPUT->pix_icon('t/collapsed_rtl', get_string('prev', 'slideshow'));
     $prevbutton = html_writer::span($previcon, 'prev disabled');
     $nexticon = $OUTPUT->pix_icon('t/collapsed', get_string('next', 'slideshow'));
     $nextbutton = html_writer::span($nexticon, 'next' . (count($slides) == 1 ? ' disabled' : ''));
 
-    // Current slide indicator
+    // Current slide indicator.
     $navbuttons = html_writer::span($prevbutton . $nextbutton, 'navbuttons');
     $currentslide = html_writer::span('1/' . count($slides), 'currentslide');
 
-    // Font size controls
+    // Font size controls.
     $fontsize = $OUTPUT->pix_icon('e/styleparagraph', get_string('decrease', 'slideshow'), 'core', ['class' => 'decrease']);
     $fontsize .= html_writer::tag(
         'input',
@@ -136,24 +145,24 @@ if ($slides) {
             'min' => '10',
             'max' => '500',
             'step' => '5',
-            'value' => '125'
+            'value' => '125',
         ]
     );
     $fontsize .= $OUTPUT->pix_icon('e/styleparagraph', get_string('increase', 'slideshow'), 'core', ['class' => 'increase']);
 
-    // Enrolment QR
+    // Enrolment QR.
     $qrcode = '';
     if (class_exists('\local_sharecourse\sharecourse_helper')) {
         $qricon = html_writer::tag('i', '', [
             'class' => 'icon fa fa-solid fa-qrcode fa-fw',
             'title' => get_string('qrcode', 'slideshow'),
             'role' => 'img',
-            'aria-label' => get_string('qrcode', 'slideshow')
+            'aria-label' => get_string('qrcode', 'slideshow'),
         ]);
         $qrcode = html_writer::span($qricon, 'qrcode');
     }
 
-    // Fullscreen button
+    // Fullscreen button.
     $fullicon = $OUTPUT->pix_icon('e/fullscreen', get_string('fullscreen', 'slideshow'));
     $fullscreen = html_writer::tag('button', $fullicon, [
         'class' => 'fullscreen',
@@ -166,9 +175,13 @@ if ($slides) {
 
     echo $OUTPUT->box($slideshtml, "slideshow-container generalbox center clearfix", 'slideshow-' . $cm->id);
 
-    // Edit slide button
+    // Edit slide button.
     if ($hascap = has_capability('mod/slideshow:viewslides', $context)) {
-        $editbutton = html_writer::link('#', get_string('edit', 'slideshow'), ['class' => 'editslide btn btn-secondary float-right']);
+        $editbutton = html_writer::link(
+            '#',
+            get_string('edit', 'slideshow'),
+            ['class' => 'editslide btn btn-secondary float-right']
+        );
         echo $editbutton;
     }
 } else {

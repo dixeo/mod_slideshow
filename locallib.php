@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -31,24 +30,49 @@ require_once("$CFG->dirroot/mod/slideshow/lib.php");
 
 
 /**
- * File browsing support class
+ * File browsing support class for slide embedded files.
  */
 class slideshow_content_file_info extends file_info_stored {
+    /**
+     * Parent folder in the file browser tree.
+     *
+     * @return file_info|null
+     */
     public function get_parent() {
-        if ($this->lf->get_filepath() === '/' and $this->lf->get_filename() === '.') {
+        if ($this->lf->get_filepath() === '/' && $this->lf->get_filename() === '.') {
             return $this->browser->get_file_info($this->context);
         }
         return parent::get_parent();
     }
+
+    /**
+     * Visible label for this file or folder.
+     *
+     * @return string
+     */
     public function get_visible_name() {
-        if ($this->lf->get_filepath() === '/' and $this->lf->get_filename() === '.') {
+        if ($this->lf->get_filepath() === '/' && $this->lf->get_filename() === '.') {
             return $this->topvisiblename;
         }
         return parent::get_visible_name();
     }
 }
 
+/**
+ * Atto editor options for slide HTML content.
+ *
+ * @param \context $context Module context.
+ * @return array
+ */
 function slideshow_get_editor_options($context) {
     global $CFG;
-    return array('subdirs'=>1, 'maxbytes'=>$CFG->maxbytes, 'maxfiles'=>-1, 'changeformat'=>1, 'context'=>$context, 'noclean'=>1, 'trusttext'=>0);
+    return [
+        'subdirs' => 1,
+        'maxbytes' => $CFG->maxbytes,
+        'maxfiles' => -1,
+        'changeformat' => 1,
+        'context' => $context,
+        'noclean' => 1,
+        'trusttext' => 0,
+    ];
 }

@@ -23,7 +23,6 @@
  */
 
 namespace mod_slideshow\event;
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * The mod_slideshow course module viewed event class.
@@ -44,8 +43,13 @@ class course_module_viewed extends \core\event\course_module_viewed {
         $this->data['objecttable'] = 'slideshow';
     }
 
+    /**
+     * Map object ids for backup and restore.
+     *
+     * @return array|string
+     */
     public static function get_objectid_mapping() {
-        return array('db' => 'slideshow', 'restore' => 'slideshow');
+        return ['db' => 'slideshow', 'restore' => 'slideshow'];
     }
 }
 

@@ -14,11 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Handling all ajax request for slides
- * @package   mod_slideshow
- * @copyright 2025 Josemaria Bolanos <admin@mako.digital>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+/**
+ * AJAX endpoints for slide reorder and related actions.
+ *
+ * @package    mod_slideshow
+ * @copyright  2025 Josemaria Bolanos <admin@mako.digital>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define('AJAX_SCRIPT', true);
 define('NO_DEBUG_DISPLAY', true);
@@ -33,7 +34,7 @@ $oldorder = optional_param('oldorder', 0, PARAM_INT);
 $neworder = optional_param('neworder', 0, PARAM_INT);
 $confirm = optional_param('confirm', '', PARAM_ALPHA);
 
-if (!$slide = $DB->get_record('slideshow_slide', array('id'=>$slideid))) {
+if (!$slide = $DB->get_record('slideshow_slide', ['id' => $slideid])) {
     throw new \moodle_exception('invalidaccessparameter');
 }
 
@@ -41,9 +42,9 @@ if (!$cm = get_coursemodule_from_id('slideshow', $slide->slideshow)) {
     throw new \moodle_exception('invalidcoursemodule');
 }
 
-$slideshow = $DB->get_record('slideshow', array('id'=>$cm->instance), '*', MUST_EXIST);
+$slideshow = $DB->get_record('slideshow', ['id' => $cm->instance], '*', MUST_EXIST);
 
-$course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 
 require_course_login($course, true, $cm);
 
@@ -51,16 +52,16 @@ $context = context_module::instance($cm->id);
 require_capability('mod/slideshow:viewslides', $context);
 
 if (!confirm_sesskey()) {
-    $error = array('error'=>get_string('invalidsesskey', 'error'));
+    $error = ['error' => get_string('invalidsesskey', 'error')];
     die(json_encode($error));
 }
 
-// Process ajax request
+// Process AJAX request.
 switch ($action) {
     case 'reorder':
         $result = true;
 
-        // Update sortorder
+        // Update sort order values.
         $records = $DB->get_records('slideshow_slide', ['slideshow' => $slide->slideshow], 'sortorder');
         foreach ($records as $record) {
             if ($record->sortorder == $oldorder) {
@@ -88,10 +89,10 @@ switch ($action) {
             $result += $DB->update_record('slideshow_slide', $record);
         }
 
-        $response = array(
+        $response = [
             'slide' => $slideid,
-            'result' => $result
-        );
+            'result' => $result,
+        ];
         echo json_encode($response);
 
         break;
@@ -101,14 +102,14 @@ switch ($action) {
 
         $result = $DB->delete_records('slideshow_slide', ['id' => $slideid]);
 
-        // Update sortorder
+        // Renumber sort order after delete.
         $sql = "UPDATE {slideshow_slide} SET sortorder = sortorder -1 WHERE slideshow = ? AND sortorder > ?";
-        $result += $DB->execute($sql, array($slide->slideshow, $slide->sortorder));
+        $result += $DB->execute($sql, [$slide->slideshow, $slide->sortorder]);
 
-        $response = array(
+        $response = [
             'slide' => $slideid,
-            'result' => $result
-        );
+            'result' => $result,
+        ];
         echo json_encode($response);
 
         break;
@@ -117,11 +118,11 @@ switch ($action) {
         $slide->hidden = $action == 'hide' ? 1 : 0;
         $result = $DB->update_record('slideshow_slide', $slide);
 
-        $response = array(
+        $response = [
             'slide' => $slideid,
             'action' => $action,
-            'result' => $result
-        );
+            'result' => $result,
+        ];
         echo json_encode($response);
 
         break;
@@ -129,5 +130,5 @@ switch ($action) {
         break;
 }
 
-// Ignore request
+// No matching action; end script.
 die;

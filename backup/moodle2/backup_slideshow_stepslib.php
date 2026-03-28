@@ -22,14 +22,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Defines slideshow + slides + embedded files for moodle2 backup.
  */
 class backup_slideshow_activity_structure_step extends backup_activity_structure_step {
 
     /**
+     * Build the nested backup element tree for slideshow and slides.
+     *
      * @return backup_nested_element
      */
     protected function define_structure() {
