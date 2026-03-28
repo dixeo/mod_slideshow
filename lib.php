@@ -47,8 +47,9 @@ function slideshow_supports($feature) {
 
 /**
  * This function is used by the reset_course_userdata function in moodlelib.
- * @param $data the data submitted from the reset course.
- * @return array status array
+ *
+ * @param stdClass $data The data submitted from the reset course form.
+ * @return array Status array for reset reporting.
  */
 function slideshow_reset_userdata($data) {
 
@@ -178,7 +179,7 @@ function slideshow_delete_instance($id) {
  * "extra" information that may be needed when printing
  * this activity in a course listing.
  *
- * See {@link course_modinfo::get_array_of_activities()}
+ * See {@see course_modinfo::get_array_of_activities()}
  *
  * @param stdClass $coursemodule
  * @return cached_cm_info Info to customise main slideshow display
@@ -348,9 +349,11 @@ function slideshow_slideshow_type_list($slideshowtype, $parentcontext, $currentc
 }
 
 /**
- * Export slideshow resource contents
+ * Export slideshow resource contents.
  *
- * @return array of file content
+ * @param stdClass $cm Course module record.
+ * @param string $baseurl Base URL for export (unused; kept for API compatibility).
+ * @return array List of exported file content descriptors.
  */
 function slideshow_export_contents($cm, $baseurl) {
     global $CFG, $DB;
@@ -499,8 +502,9 @@ function slideshow_check_updates_since(cm_info $cm, $from, $filter = array()) {
  * This is used by block_myoverview in order to display the event appropriately. If null is returned then the event
  * is not displayed on the block.
  *
- * @param calendar_event $event
- * @param \core_calendar\action_factory $factory
+ * @param calendar_event $event The calendar event.
+ * @param \core_calendar\action_factory $factory Factory for building the action.
+ * @param int $userid User id to check completion for (0 = current user).
  * @return \core_calendar\local\event\entities\action_interface|null
  */
 function mod_slideshow_core_calendar_provide_event_action(calendar_event $event,
